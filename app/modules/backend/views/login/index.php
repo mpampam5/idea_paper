@@ -1,126 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
-
-
-<!-- Mirrored from www.urbanui.com/justdo/template/demo/vertical-default-light/pages/samples/login-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 13 Jul 2019 23:08:25 GMT -->
 <head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Login Admin</title>
-  <!-- plugins:css -->
-  <link rel="stylesheet" href="<?=base_url()?>_template/back/vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" href="<?=base_url()?>_template/back/vendors/css/vendor.bundle.base.css">
-  <!-- endinject -->
-  <!-- Plugin css for this page -->
-  <!-- End plugin css for this page -->
-  <!-- inject:css -->
-  <link rel="stylesheet" href="<?=base_url()?>_template/back/css/style.css">
-    <link rel="stylesheet" href="<?=base_url()?>_template/back/vendors/jquery-toast-plugin/jquery.toast.min.css">
-  <!-- endinject -->
-  <link rel="shortcut icon" href="<?=base_url()?>_template/back/images/favicon.png" />
+	<title>Login</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?=base_url()?>_template/login/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?=base_url()?>_template/login/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?=base_url()?>_template/login/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?=base_url()?>_template/login/vendor/animate/animate.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?=base_url()?>_template/login/vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?=base_url()?>_template/login/vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?=base_url()?>_template/login/vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?=base_url()?>_template/login/vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?=base_url()?>_template/login/css/util.css">
+	<link rel="stylesheet" type="text/css" href="<?=base_url()?>_template/login/css/main.css">
+<!--===============================================================================================-->
 </head>
-
 <body>
-  <div class="container-scroller">
-    <div class="container-fluid page-body-wrapper full-page-wrapper">
-      <div class="content-wrapper d-flex align-items-center auth px-0">
-        <div class="row w-100 mx-0">
-          <div class="col-lg-4 mx-auto">
-            <div class="auth-form-light text-left py-5 px-4 px-sm-5">
-              <!-- <div class="brand-logo">
-                <img src="http://www.urbanui.com/justdo/template/images/logo.svg" alt="logo">
-              </div> -->
-              <h4>Login Admin</h4>
-              <h6 class="font-weight-light">Silahkan masukkan data akun.</h6>
-              <form class="pt-3" id="form" action="<?=site_url("adm-panel/action")?>">
-                <div class="form-group">
-                  <input type="text" class="form-control form-control-lg" name="username" id="username" placeholder="Username">
-                </div>
-                <div class="form-group">
-                  <input type="password" class="form-control form-control-lg" name="password" id="password" placeholder="Password">
-                </div>
-                <div class="mt-3">
-                  <button type="submit" name="submit" id="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" data-loading-text="<i class='fa fa-spinner fa-spin '></i> &nbsp; Memproses ..."> Login</button>
-                </div>
-                <div class="my-2 d-flex justify-content-between align-items-center">
-                  <div class="form-check">
-                    <!-- <label class="form-check-label text-muted">
-                      <input type="checkbox" class="form-check-input">
-                      Keep me signed in
-                    </label> -->
-                  </div>
-                  <a href="#" class="auth-link text-black">Lupa password?</a>
-                </div>
-              </form>
-            </div>
-          </div>
+
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100 p-b-160 p-t-50">
+				<form class="login100-form validate-form" action="<?=$action?>" id="form" autocomplete="off">
+					<span class="login100-form-title p-b-43">
+						Account Login
+					</span>
+
+					<div class="wrap-input100 rs1">
+						<input class="input100" type="text" name="username">
+						<span class="label-input100">Username</span>
+					</div>
+
+
+					<div class="wrap-input100 rs2">
+						<input class="input100" type="password" name="password">
+						<span class="label-input100">Password</span>
+					</div>
+
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn" type="submit" id="submit">
+							Sign in
+						</button>
+					</div>
+
+					<div class="text-center w-full p-t-23">
+						<a href="#" class="txt1">
+							Forgot password?
+						</a>
+					</div>
+				</form>
+
+
+        <div class="text-center">
+          <div class="" id="username"></div>
+          <div class="" id="password"></div>
         </div>
-      </div>
-      <!-- content-wrapper ends -->
-    </div>
-    <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
-  <!-- plugins:js -->
-  <script src="<?=base_url()?>_template/back/vendors/js/vendor.bundle.base.js"></script>
-  <!-- endinject -->
-  <!-- Plugin js for this page -->
-  <!-- End plugin js for this page -->
-  <!-- inject:js -->
-  <script src="<?=base_url()?>_template/back/vendors/jquery-toast-plugin/jquery.toast.min.js"></script>
-  <script src="<?=base_url()?>_template/back/js/off-canvas.js"></script>
-  <script src="<?=base_url()?>_template/back/js/hoverable-collapse.js"></script>
-  <script src="<?=base_url()?>_template/back/js/template.js"></script>
-  <script src="<?=base_url()?>_template/back/js/settings.js"></script>
-  <script src="<?=base_url()?>_template/back/js/todolist.js"></script>
-  <!-- endinject -->
 
 
-  <script type="text/javascript">
-    $("#form").submit(function(e){
-      e.preventDefault();
-      var me = $(this);
-      $('#submit').prop('disabled', true)
-                 .text('Memproses...');
-                 $.ajax({
-                          url      : me.attr('action'),
-                          type     : 'POST',
-                          data     :me.serialize(),
-                          dataType : 'JSON',
-                                    success:function(json){
-                                      if (json.success==true) {
-                                        if (json.valid==true) {
-                                          window.location.href = json.url;
-                                        }else {
-                                          $("#password").val('');
-                                          $('#submit').prop('disabled', false).text('Login');
-                                          $.toast({
-                                            heading: 'Gagal Login',
-                                            text: json.alert,
-                                            showHideTransition: 'slide',
-                                            icon: 'error',
-                                            loaderBg: '#000000',
-                                            position: 'top-center'
-                                          });
-                                          $('.text-danger').remove();
-                                        }
-                                      }else {
-                                        $.each(json.alert, function(key, value) {
-                                          var element = $('#' + key);
-                                          $('#submit').prop('disabled', false).text('Login');
-                                          $(element)
-                                          .closest('.form-group')
-                                          .find('.text-danger').remove();
-                                          $(element).after(value);
-                                        });
-                                      }
-                                    }
-                        });
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+<!--===============================================================================================-->
+	<script src="<?=base_url()?>_template/login/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="<?=base_url()?>_template/login/vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script src="<?=base_url()?>_template/login/vendor/bootstrap/js/popper.js"></script>
+	<script src="<?=base_url()?>_template/login/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="<?=base_url()?>_template/login/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="<?=base_url()?>_template/login/vendor/daterangepicker/moment.min.js"></script>
+	<script src="<?=base_url()?>_template/login/vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+	<script src="<?=base_url()?>_template/login/vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+	<script src="<?=base_url()?>_template/login/js/main.js"></script>
+
+
+<script type="text/javascript">
+  $("#form").submit(function(e){
+    e.preventDefault();
+    var me = $(this);
+    $('#submit').prop('disabled', true)
+                 .html('<i class="fa fa-spinner fa-spin"></i>&nbsp;&nbsp;Loading...');
+    $.ajax({
+      url      : me.attr('action'),
+      type     : 'POST',
+      data     :me.serialize(),
+      dataType : 'JSON',
+      success:function(json){
+       if (json.success==true) {
+         if (json.valid==true) {
+           window.location.href = json.url;
+         }else {
+           $("#password").val('');
+           $('#submit').prop('disabled', false).text('Login');
+           $.toast({
+             // heading: 'Gagal Login',
+             text: json.alert,
+             showHideTransition: 'slide',
+             icon: 'error',
+             loaderBg: '#3e3e3e',
+             position: 'top-center'
+           });
+           $('.text-danger').remove();
+         }
+       }else {
+         $.each(json.alert, function(key, value) {
+           var element = $('#' + key);
+           $('#submit').prop('disabled', false).text('SIGN IN');
+           $(element).find('.text-danger').remove();
+           $(element).html(value);
+         });
+       }
+     }
     });
-  </script>
+  })
+</script>
+
 </body>
-
-
-<!-- Mirrored from www.urbanui.com/justdo/template/demo/vertical-default-light/pages/samples/login-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 13 Jul 2019 23:08:25 GMT -->
 </html>

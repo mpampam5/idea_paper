@@ -52,3 +52,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'backend/login/login';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+
+$route['adm-panel'] = 'backend/login/login';
+
+$route['sign-in-action'] = 'backend/login/login/action';
+
+$route['logout'] = 'backend/login/login/logout';

@@ -7,6 +7,10 @@ class MY_Controller extends CI_Controller{
   {
     parent::__construct();
     // $this->load->config('my_config');
+    if ($this->session->userdata('logins')!=true) {
+        $this->session->sess_destroy();
+        redirect(site_url("adm-panel"));
+    }
     $this->load->library(array('backend/template','form_validation','encrypt'));
   }
 

@@ -132,7 +132,7 @@
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#pengaturan" aria-expanded="false" aria-controls="pengaturan">
               <i class="fa fa-cogs menu-icon"></i>
-              <span class="menu-title">Pengaturan</span>
+              <span class="menu-title">Settings</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="pengaturan">

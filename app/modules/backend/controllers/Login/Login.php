@@ -41,7 +41,9 @@ class Login extends CI_Controller{
           $password =  $this->input->post("password");
 
           $query =  $this->db->get_where("tb_admin",[
-                                                      "username" => $username
+                                                      "username" => $username,
+                                                      "is_delete" => '0',
+                                                      "is_active" => "y"
                                                     ]);
 
           if ($query->num_rows() > 0) {

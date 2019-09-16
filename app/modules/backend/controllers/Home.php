@@ -16,7 +16,7 @@ class Home extends MY_Controller{
     $this->template->view('content/home/index',array());
   }
 
-
+  
 
 
 }

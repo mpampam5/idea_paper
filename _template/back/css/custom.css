@@ -1511,3 +1511,7 @@
 .breadcrumb-item.active{
   color : #ffcc00;
 }
+
+.modal-footer{
+  border-top: none;
+}

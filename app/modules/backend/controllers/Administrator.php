@@ -43,7 +43,7 @@ class Administrator extends MY_Controller{
 
           $row[] = ($admin->is_active=="y") ? '<span class="text-success"> Active</span>':'<span class="text-danger">Not active</span>';
 
-          $row[] = '<a href="" class="text-dark" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Reset Password"><i class="fa fa-key"></i></a>&nbsp;&nbsp;
+          $row[] = '<a href="'.site_url("backend/administrator/reset_password/$admin->id_admin").'" class="text-dark" id="rst_pwd" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Reset Password"><i class="fa fa-key"></i></a>&nbsp;&nbsp;
                     <a href="" class="text-primary" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Detail"><i class="fa fa-file"></i></a>&nbsp;&nbsp;
                     <a href="'.site_url("backend/administrator/update/$admin->id_admin").'" class="text-warning" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Update"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;
                     <a href="'.site_url("backend/administrator/delete/$admin->id_admin").'" id="delete" class="text-danger" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Remove"><i class="fa fa-trash"></i></a>
@@ -178,6 +178,46 @@ class Administrator extends MY_Controller{
         $json['alert']   = 'delete successful';
     }
     echo json_encode($json);
+  }
+}
+
+function reset_password($id)
+{
+  if ($this->input->is_ajax_request()) {
+    if ($row = $this->model->get_where("tb_admin",["id_admin"=>$id])) {
+        $data['action'] = site_url("backend/administrator/reset_pwd_action/$id");
+        $data['username'] = $row->username;
+        $this->template->view("content/administrator/reset_pwd",$data,false);
+    }else {
+      echo "error404";
+    }
+  }
+}
+
+
+function reset_pwd_action($id)
+{
+  if ($this->input->is_ajax_request()) {
+      $json = array('success'=>false, 'alert'=>array());
+      $this->form_validation->set_rules('password', 'Password', 'required|min_length[5]');
+      $this->form_validation->set_rules('v_password', 'Konfirmasi Password', 'required|matches[password]');
+      $this->form_validation->set_error_delimiters('<label class="error mt-2 text-danger" style="font-size:11px">','</label>');
+      if ($this->form_validation->run()) {
+        $this->load->helper('pass_has');
+        $data = [
+                  "token"       => date('dmYhis'),
+                  "password"    => pass_encrypt(date('dmYhis'),$this->input->post("v_password")),
+                ];
+        $this->model->get_update("tb_admin",$data,["id_admin"=>$id]);
+        $json['success'] = true;
+        $json['alert']   = 'Reset password successful';
+      }else {
+        foreach ($_POST as $key => $value)
+          {
+            $json['alert'][$key] = form_error($key);
+          }
+      }
+      echo json_encode($json);
   }
 }
 

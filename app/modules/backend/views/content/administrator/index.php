@@ -179,6 +179,15 @@ $(document).ready(function(){
 
 });
 
+$(document).on("click","#rst_pwd",function(e){
+  e.preventDefault();
+  $('.modal-dialog').removeClass('modal-lg')
+                    .removeClass('modal-sm')
+                    .addClass('modal-md');
+  $("#modalTitle").text('Form Reset Password');
+  $('#modalContent').load($(this).attr('href'));
+  $("#modalGue").modal('show');
+});
 
 $(document).on("click","#delete",function(e){
   e.preventDefault();

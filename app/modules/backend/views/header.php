@@ -96,6 +96,13 @@
             </a>
           </li>
 
+          <li class="nav-item">
+            <a class="nav-link" href="<?=site_url('backend/home')?>">
+              <i class="ti-user menu-icon"></i>
+              <span class="menu-title">Member</span>
+            </a>
+          </li>
+
 
 
 

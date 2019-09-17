@@ -53,7 +53,7 @@
 
     $('#modalGue').on('hide.bs.modal', function () {
 			setTimeout(function(){
-					$('#modalTitle, #modalContent').html('');
+					$('#modalTitle, #modalContent , #modalFooter').html('');
 				}, 500);
 	   });
 

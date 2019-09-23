@@ -9,7 +9,7 @@ if ( ! function_exists('sess'))
   }
 }
 
-if ( ! function_exists('test_method'))
+if ( ! function_exists('profile'))
 {
   function profile($field)
   {
@@ -20,5 +20,13 @@ if ( ! function_exists('test_method'))
      }else {
        return "Error Helper";
      }
+  }
+}
+
+if ( ! function_exists('format_rupiah'))
+{
+  function format_rupiah($int)
+  {
+    return number_format($int, 0, ',', '.');
   }
 }

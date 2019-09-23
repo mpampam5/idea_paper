@@ -1520,3 +1520,33 @@
 .dropdown-item{
   font-size: 14px;
 }
+
+
+
+
+/* //table */
+
+.table thead tr th{
+  padding: 15px 10px 15px 10px;
+  font-size: 14px;
+}
+
+.table tbody tr td{
+  padding: 10px 10px 10px 10px;
+  font-size: 14px;
+}
+
+
+/* modal */
+.modal .modal-dialog .modal-content .modal-header{
+  padding: 10px 10px;
+  background-color: #f1f1f1;
+}
+
+.modal-header .close{
+  margin : -18px -2px -25px auto;
+}
+
+.modal .modal-dialog .modal-content .modal-body{
+  padding: 20px 20px;
+}

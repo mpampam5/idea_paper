@@ -9,7 +9,6 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb bg-black">
     <li class="breadcrumb-item"><a href="<?=site_url("backend/home")?>">Dashboard</a></li>
-    <li class="breadcrumb-item" aria-current="page">Setting</li>
     <li class="breadcrumb-item active" aria-current="page"><?=ucfirst($title)?></li>
   </ol>
 </nav>
@@ -90,11 +89,11 @@
           <table id="table" class="table table-bordered">
             <thead class="bg-black text-yell">
               <tr>
-                <th>No</th>
+                <th>NO</th>
                 <th>ID.REG</th>
-                <th>Nama</th>
-                <th>Email</th>
-                <th>Telepon</th>
+                <th>NAMA</th>
+                <th>EMAIL</th>
+                <th>TELEPON</th>
                 <th class="text-center">#</th>
               </tr>
             </thead>

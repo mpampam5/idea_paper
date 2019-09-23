@@ -111,13 +111,13 @@
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#deposit-menu" aria-expanded="false" aria-controls="deposit-menu">
               <i class="fa fa-credit-card-alt menu-icon"></i>
-              <span class="menu-title">Deposit</span>
+              <span class="menu-title">Top up</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="deposit-menu">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?=site_url("adm-backend/deposit/deposit_pending")?>">Deposit Pending</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?=site_url("adm-backend/deposit/deposit_verifikasi")?>">Deposit Approved</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?=site_url("backend/topup/pending")?>">Menunggu verifikasi</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?=site_url("backend/topup/approved")?>">Approved</a></li>
               </ul>
             </div>
           </li>
@@ -130,8 +130,8 @@
             </a>
             <div class="collapse" id="withdraw-menu">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?=site_url("adm-backend/withdraw/withdraw_pending")?>">Withdraw Pending</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?=site_url("adm-backend/withdraw/withdraw_verifikasi")?>">Withdraw Approved</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?=site_url("adm-backend/withdraw/withdraw_pending")?>">Menunggu verifikasi</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?=site_url("adm-backend/withdraw/withdraw_verifikasi")?>">Approved</a></li>
               </ul>
             </div>
           </li>

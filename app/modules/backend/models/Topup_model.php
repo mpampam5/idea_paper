@@ -12,6 +12,7 @@ class Topup_model extends MY_Model{
                   trans_person_deposit.nominal AS nominal,
                   trans_person_deposit.status AS status,
                   trans_person_deposit.created,
+                  trans_person_deposit.time_approved,
                   tb_person.id_register AS id_register,
                   tb_person.nama AS nama,
                   tb_person.email AS email,
@@ -83,7 +84,11 @@ class Topup_model extends MY_Model{
         }
         else if(isset($this->order))
         {
-            $order = $this->order;
+            if ($status=="proces") {
+                $order = $this->order;
+            }else{
+              $order = array('time_approved'=>"DESC");
+            }
             $this->db->order_by(key($order), $order[key($order)]);
         }
     }

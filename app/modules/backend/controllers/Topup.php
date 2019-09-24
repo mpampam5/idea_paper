@@ -37,12 +37,12 @@ class Topup extends MY_Controller{
 
           $row[] = '
                     <div class="btn-group">
-                            <button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="fa fa-cog"></span> Action</button>
-                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 44px, 0px);">
-                              <a class="dropdown-item text-primary" href="'.site_url("backend/topup/detail/$topup->id_trans_person_deposit/$topup->kode_transaksi/success").'"><i class="fa fa-file"></i> Detail</a>
-                              <a class="dropdown-item text-danger" href="'.site_url("backend/member/update/$topup->id_person").'"><i class="fa fa-trash"></i> Delete</a>
-                            </div>
-                          </div>
+                      <button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="fa fa-cog"></span> Action</button>
+                      <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 44px, 0px);">
+                        <a class="dropdown-item text-primary" href="'.site_url("backend/topup/detail/$topup->id_trans_person_deposit/$topup->kode_transaksi/success").'"><i class="fa fa-file"></i> Detail</a>
+                        <a class="dropdown-item text-danger" id="delete" href="'.site_url("backend/topup/delete/$topup->id_trans_person_deposit/$topup->kode_transaksi").'"><i class="fa fa-trash"></i> Delete</a>
+                      </div>
+                    </div>
                    ';
 
           $data[] = $row;
@@ -87,9 +87,8 @@ class Topup extends MY_Controller{
                     <div class="btn-group">
                             <button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="fa fa-cog"></span> Action</button>
                             <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 44px, 0px);">
-                              <a class="dropdown-item text-success" id="approved" href="'.site_url("backend/topup/approved_alert/$topup->id_trans_person_deposit/$topup->kode_transaksi").'"><i class="fa fa-check"></i> Approved</a>
                               <a class="dropdown-item text-primary" href="'.site_url("backend/topup/detail/$topup->id_trans_person_deposit/$topup->kode_transaksi/proses").'"><i class="fa fa-file"></i> Detail</a>
-                              <a class="dropdown-item text-danger" href="'.site_url("backend/member/update/$topup->id_person").'"><i class="fa fa-trash"></i> Delete</a>
+                              <a class="dropdown-item text-success" id="approved" href="'.site_url("backend/topup/approved_alert/$topup->id_trans_person_deposit/$topup->kode_transaksi").'"><i class="fa fa-check"></i> Approved</a>
                             </div>
                           </div>
                    ';
@@ -159,6 +158,45 @@ class Topup extends MY_Controller{
         $this->model->get_update("trans_person_deposit",$data,["id_trans_person_deposit"=>$id,"kode_transaksi"=>$kd_trans]);
         $json['success'] = true;
         $json['alert']   = 'Approved successful';
+      }else {
+        foreach ($_POST as $key => $value)
+          {
+            $json['alert'][$key] = form_error($key);
+          }
+      }
+
+      echo json_encode($json);
+    }
+  }
+
+
+  function delete($id,$kd_trans)
+  {
+    if ($this->input->is_ajax_request()) {
+      if ($row = $this->model->topup_detail($id,$kd_trans)) {
+        $data['action'] = site_url("backend/topup/act_delete/$row->id_trans_person_deposit/$row->kode_transaksi");
+        $data['rows'] = $row;
+        $this->template->view('content/topup/form_delete',$data,false);
+      }else {
+        $this->_error404();
+      }
+    }
+  }
+
+  function act_delete($id,$kd_trans)
+  {
+    if ($this->input->is_ajax_request()) {
+      $json = array('success'=>false, 'alert'=>array());
+      $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|xss_clean|htmlspecialchars');
+      $this->form_validation->set_error_delimiters('<label class="error mt-2 text-danger" style="font-size:11px">','</label>');
+      if ($this->form_validation->run()) {
+        $data = [
+                  "status"    => "delete",
+                  "keterangan"   => "keterangan = ".$this->input->post("keterangan",true)." | admin_approved =".sess('id_admin').",".profile("nama")." | waktu = ".date('Y-m-d h:i:s'),
+                ];
+        $this->model->get_update("trans_person_deposit",$data,["id_trans_person_deposit"=>$id,"kode_transaksi"=>$kd_trans]);
+        $json['success'] = true;
+        $json['alert']   = 'Delete successful';
       }else {
         foreach ($_POST as $key => $value)
           {

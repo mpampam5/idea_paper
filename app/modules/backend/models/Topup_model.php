@@ -84,11 +84,7 @@ class Topup_model extends MY_Model{
         }
         else if(isset($this->order))
         {
-            if ($status=="proces") {
-                $order = $this->order;
-            }else{
-              $order = array('time_approved'=>"DESC");
-            }
+            $order = $this->order;
             $this->db->order_by(key($order), $order[key($order)]);
         }
     }

@@ -46,7 +46,7 @@ $("#form").submit(function(e){
                 loaderBg: '#f96868',
                 position: 'bottom-right',
                 afterHidden: function () {
-                    $('#table').DataTable().ajax.reload();
+                    window.location.href="<?=site_url("backend/topup/pending")?>";
                 }
               });
 

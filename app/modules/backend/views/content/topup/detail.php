@@ -129,7 +129,7 @@
                 <a href="<?=site_url("backend/topup/pending")?>" class="btn btn-sm btn-secondary text-white"> <i class="fa fa-arrow-left"></i> Back</a>
               <?php endif; ?>
               <?php if ($rows->status=="proses"): ?>
-              <a href="#" class="btn btn-sm btn-success"> <i class="fa fa-check"></i> Approved</a>
+              <a id="approved" href="<?=site_url("backend/topup/approved_alert/$rows->id_trans_person_deposit/$rows->kode_transaksi")?>" class="btn btn-sm btn-success"> <i class="fa fa-check"></i> Approved</a>
               <?php endif; ?>
             </div>
           </div>
@@ -140,3 +140,15 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+$(document).on("click","#approved",function(e){
+  e.preventDefault();
+  $('.modal-dialog').removeClass('modal-lg')
+                    .removeClass('modal-sm')
+                    .addClass('modal-md');
+  $("#modalTitle").text('Please Confirm');
+  $('#modalContent').load($(this).attr('href'));
+  $("#modalGue").modal('show');
+});
+</script>

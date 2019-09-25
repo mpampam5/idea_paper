@@ -11,7 +11,7 @@ class MY_Controller extends CI_Controller{
         $this->session->sess_destroy();
         redirect(site_url("adm-panel"));
     }
-    $this->load->helper("backend");
+    $this->load->helper(array("backend","enc_gue"));
     $this->load->library(array('template','backend','form_validation','encrypt'));
   }
 

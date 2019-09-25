@@ -130,8 +130,8 @@
             </a>
             <div class="collapse" id="withdraw-menu">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?=site_url("adm-backend/withdraw/withdraw_pending")?>">Menunggu verifikasi</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?=site_url("adm-backend/withdraw/withdraw_verifikasi")?>">Approved</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?=site_url("backend/withdraw/pending")?>">Menunggu verifikasi</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?=site_url("backend/withdraw/approved")?>">Approved</a></li>
               </ul>
             </div>
           </li>

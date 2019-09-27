@@ -93,5 +93,44 @@ class Member_model extends MY_Model{
     }
 
 
+    function get_detail_member($id,$mem_reg)
+    {
+      $query = $this->db->select("tb_person.id_person,
+                                  tb_person.id_register,
+                                  tb_person.nik,
+                                  tb_person.nama,
+                                  tb_person.tempat_lahir,
+                                  tb_person.tanggal_lahir,
+                                  tb_person.jenis_kelamin,
+                                  tb_person.pekerjaan,
+                                  tb_person.telepon,
+                                  tb_person.email,
+                                  tb_person.foto,
+                                  tb_person.alamat,
+                                  tb_person.id_provinsi,
+                                  tb_person.id_kabupaten,
+                                  tb_person.id_kecamatan,
+                                  tb_person.id_kelurahan,
+                                  tb_person.is_delete,
+                                  tb_person.is_verifikasi,
+                                  tb_person.created,
+                                  tb_person.modified,
+                                  tb_auth.username,
+                                  trans_person_rekening.nama_rekening,
+                                  trans_person_rekening.no_rekening,
+                                  trans_person_rekening.kota_pembukuan,
+                                  ref_bank.inisial_bank")
+                        ->from("tb_person")
+                        ->join("tb_auth","tb_auth.id_person = tb_person.id_person")
+                        ->join("trans_person_rekening","trans_person_rekening.id_person = tb_person.id_person")
+                        ->join("ref_bank","ref_bank.id_bank = trans_person_rekening.ref_bank")
+                        ->where("tb_person.id_person",dec_uri($id))
+                        ->where("tb_person.id_register",$mem_reg)
+                        ->get()
+                        ->row();
+        return $query;
+    }
+
+
 
 }

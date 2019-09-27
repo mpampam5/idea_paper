@@ -15,7 +15,7 @@
 
   <div class="row">
     <div class="col-12 mb-2">
-      <a href="<?=site_url('backend/administrator/add')?>" class="btn btn-sm btn-success" id="add"><i class="fa fa-file"></i> Add</a>
+      <!-- <a href="<?=site_url('backend/administrator/add')?>" class="btn btn-sm btn-success" id="add"><i class="fa fa-file"></i> Add</a> -->
       <button type="button" class="btn btn-primary btn-sm" id="search"><i class="fa fa-search"></i> Search</button>
       <button type="button" class="btn btn-warning btn-sm text-white" id="reload_table"><i class="fa fa-refresh"></i> Reload</button>
     </div>
@@ -154,7 +154,8 @@ $(document).ready(function(){
     });
 
     $("#reload_table").click(function(){
-      // $('#form-filter')[0].reset();
+      $('#form-filter')[0].reset();
+      $("#search_collapse").collapse('hide');
         table.ajax.reload();
     });
 

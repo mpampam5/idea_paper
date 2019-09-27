@@ -30,3 +30,15 @@ if ( ! function_exists('format_rupiah'))
     return number_format($int, 0, ',', '.');
   }
 }
+
+function wilayah_indonesia($table,$where){
+
+  $ci = get_instance();
+  $query =  $ci->db->get_where($table,$where);
+  if ($query->num_rows() > 0) {
+      return $query->row()->name;
+  }else {
+    return "data wilayah tidak di temukan";
+  }
+
+}

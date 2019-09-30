@@ -42,5 +42,22 @@ class MY_Controller extends CI_Controller{
     }
   }
 
+  //CEK PASSWORD FORM VALIDATION
+  function _cek_password($str)
+  {
+    if ($row = $this->model->get_where("tb_admin",["id_admin"=>sess('id_admin')])) {
+        $this->load->helper("pass_has");
+        if (pass_decrypt($row->token,$str,$row->password)==true) {
+          return true;
+        }else {
+          $this->form_validation->set_message('_cek_password', '* Password Salah');
+          return false;
+        }
+    }else {
+      $this->form_validation->set_message('_cek_password', '* Password Salah');
+      return false;
+    }
+  }
+
 
 }

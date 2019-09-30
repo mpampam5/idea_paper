@@ -31,6 +31,20 @@ if ( ! function_exists('format_rupiah'))
   }
 }
 
+
+function select_bank($id_bank)
+{
+  $str = "";
+  $ci = get_instance();
+  $query = $ci->db->get('ref_bank');
+            foreach ($query->result() as $row) {
+              $str .="<option value='".$row->id_bank."'";
+              $str .= ($row->id_bank===$id_bank) ? "selected" : '';
+              $str .=">".$row->inisial_bank."</option>";
+            }
+  return $str;
+}
+
 function wilayah_indonesia($table,$where){
 
   $ci = get_instance();

@@ -1550,3 +1550,24 @@
 .modal .modal-dialog .modal-content .modal-body{
   padding: 20px 20px;
 }
+
+/* //profile */
+.profile-menu-bar .menu-bar .menu-items {
+  list-style: none!important;
+}
+
+.profile-menu-bar .menu-bar .menu-items li{
+  padding:5px 0 5px 0;
+  margin-left: 0;
+  text-align: left;
+}
+
+.profile-menu-bar .menu-bar .menu-items li a{
+  text-decoration: none;
+  font-size: 14px;
+  color: #454545;
+}
+
+.profile-menu-bar .menu-bar .menu-items li a.active{
+  color:#ffcc00!important;
+}

@@ -94,6 +94,7 @@
                 <th>NAMA</th>
                 <th>EMAIL</th>
                 <th>TELEPON</th>
+                <th>STATUS</th>
                 <th class="text-center">#</th>
               </tr>
             </thead>
@@ -143,8 +144,13 @@ $(document).ready(function(){
 
         {
             "className": "text-center",
-            "orderable": false,
             "targets": 5
+        },
+
+        {
+            "className": "text-center",
+            "orderable": false,
+            "targets": 6
         }
         ],
       });

@@ -31,16 +31,11 @@ class Member extends MY_Controller{
           $row[] = strtoupper($member->nama)."<br><i class='text-info' style='font-size:11px;'>Mulai bergabung : ".date('d/m/Y H:i', strtotime($member->created))."</i>";
           $row[] = $member->email;
           $row[] = $member->telepon;
+          $row[] = $member->is_active=="0"? "<span class='badge badge-danger'> Nonaktif</span>" : "<span class='badge badge-success'> Aktif</span>";
+
 
           $row[] = '
-                    <div class="btn-group">
-                            <button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="fa fa-cog"></span> Action</button>
-                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 44px, 0px);">
-                              <a class="dropdown-item text-primary" href="'.site_url("backend/member/detail/personal/".enc_uri($member->id_person)."/$member->id_register").'"><i class="fa fa-file"></i> Detail</a>
-                              <a class="dropdown-item text-warning" href="'.site_url("backend/member/update/$member->id_person").'"><i class="fa fa-pencil"></i> Edit</a>
-                              <a class="dropdown-item text-danger" href="'.site_url("backend/member/update/$member->id_person").'"><i class="fa fa-trash"></i> Delete</a>
-                            </div>
-                          </div>
+                      <a class="btn btn-outline-primary" href="'.site_url("backend/member/detail/personal/".enc_uri($member->id_person)."/$member->id_register").'"><i class="fa fa-file"></i> Detail & Setting</a>
                    ';
 
           $data[] = $row;
@@ -85,6 +80,10 @@ class Member extends MY_Controller{
         $this->template->set_title("Member");
         $query["row"] = $row;
         $query['action'] = site_url("backend/member/form_act/$link/$id/$mem_reg");
+        if ($link=="personal") {
+          $query['provinsi'] = $this->db->get("wil_provinsi");
+          $query['pekerjaan'] = $this->db->get("ref_pekerjaan");
+        }
         $data["id_person"] = $row->id_person;
         $data["id_register"] = $row->id_register;
         $data['content_view'] = $this->load->view("content/member/form_$link",$query,true);
@@ -104,8 +103,24 @@ class Member extends MY_Controller{
       $link_uri = array('personal','rekening','account','delete');
       if (in_array($link,$link_uri)) {
           $json = array('success'=>false, 'alert'=>array());
-
-          if ($link=="rekening") {
+          if ($link=="personal") {
+            $this->_rules_personal();
+            $table = "tb_person";
+            $data_update = ["nik"           =>  $this->input->post("nik",true),
+                            "nama"          =>  $this->input->post("nama",true),
+                            "email"         =>  $this->input->post("email",true),
+                            "telepon"       =>  $this->input->post("telepon",true),
+                            "jenis_kelamin" =>  $this->input->post("jenis_kelamin",true),
+                            "tempat_lahir"  =>  $this->input->post("tempat_lahir",true),
+                            "tanggal_lahir" =>  date("Y-m-d",strtotime($this->input->post("tanggal_lahir",true))),
+                            "pekerjaan"     =>  $this->input->post("pekerjaan",true),
+                            "id_provinsi"   =>  $this->input->post("provinsi",true),
+                            "id_kabupaten"  =>  $this->input->post("kabupaten",true),
+                            "id_kecamatan"  =>  $this->input->post("kecamatan",true),
+                            "id_kelurahan"  =>  $this->input->post("kelurahan",true),
+                            "alamat"  =>  $this->input->post("alamat",true)
+                            ];
+          }elseif ($link=="rekening") {
             $this->_rules_rekening();
             $table = "trans_person_rekening";
             $data_update = ["ref_bank"        =>  $this->input->post("bank",true),
@@ -155,6 +170,23 @@ class Member extends MY_Controller{
     }
   }
 
+  function _rules_personal()
+  {
+      $this->form_validation->set_rules("nik","&nbsp;*","trim|xss_clean|required|min_length[16]|max_length[16]|numeric|callback__cek_nik[".$this->input->post("nik_lama",true)."]");
+      $this->form_validation->set_rules("nama","&nbsp;*","trim|xss_clean|htmlspecialchars|required");
+      $this->form_validation->set_rules("email","&nbsp;*","trim|xss_clean|required|htmlspecialchars|valid_email|callback__cek_email[".$this->input->post("email_lama",true)."]");
+      $this->form_validation->set_rules("telepon","&nbsp;*","trim|xss_clean|required|numeric");
+      $this->form_validation->set_rules("tempat_lahir","&nbsp;*","trim|xss_clean|htmlspecialchars|required");
+      $this->form_validation->set_rules("tanggal_lahir","&nbsp;*","trim|xss_clean|required");
+      $this->form_validation->set_rules("jenis_kelamin","&nbsp;*","trim|xss_clean|htmlspecialchars|required");
+      $this->form_validation->set_rules("pekerjaan","&nbsp;*","trim|xss_clean|required");
+      $this->form_validation->set_rules("provinsi","&nbsp;*","trim|xss_clean|required");
+      $this->form_validation->set_rules("kabupaten","&nbsp;*","trim|xss_clean|required");
+      $this->form_validation->set_rules("kecamatan","&nbsp;*","trim|xss_clean|required");
+      $this->form_validation->set_rules("kelurahan","&nbsp;*","trim|xss_clean|required");
+      $this->form_validation->set_rules("alamat","&nbsp;*","trim|xss_clean|htmlspecialchars|required");
+  }
+
 
   function _rules_rekening()
   {
@@ -180,5 +212,59 @@ class Member extends MY_Controller{
   }
 
 
+  function _cek_nik($str,$nik_lama)
+    {
+      $row =  $this->db->get_where("tb_person",["nik !="=>$nik_lama,"nik"=>$str,"is_delete"=>"0"]);
+      if ($row->num_rows() > 0) {
+        $this->form_validation->set_message('_cek_nik', '* Sudah terpakai member lain');
+        return false;
+      }else {
+        return true;
+      }
+    }
+
+    function _cek_email($str,$email_lama)
+      {
+        $row =  $this->db->get_where("tb_person",["email !="=>$email_lama,"email"=>$str,"is_delete"=>"0"]);
+        if ($row->num_rows() > 0) {
+          $this->form_validation->set_message('_cek_email', '* Sudah terpakai member lain');
+          return false;
+        }else {
+          return true;
+        }
+      }
+
+
+
+      function kabupaten(){
+            $propinsiID = $_GET['id'];
+            $kabupaten   = $this->db->get_where('wil_kabupaten',array('province_id'=>$propinsiID));
+            echo '<option value="">-- Pilih Kabupaten/Kota --</option>';
+            foreach ($kabupaten->result() as $k)
+            {
+                echo "<option value='$k->id'>$k->name</option>";
+            }
+        }
+
+
+        function kecamatan(){
+           $kabupatenID = $_GET['id'];
+           $kecamatan   = $this->db->get_where('wil_kecamatan',array('regency_id'=>$kabupatenID));
+           echo '<option value="">-- Pilih Kecamatan --</option>';
+           foreach ($kecamatan->result() as $k)
+           {
+               echo "<option value='$k->id'>$k->name</option>";
+           }
+       }
+
+       function kelurahan(){
+            $kecamatanID  = $_GET['id'];
+            $desa         = $this->db->get_where('wil_kelurahan',array('district_id'=>$kecamatanID));
+            echo '<option value="">-- Pilih Kelurahan/Desa --</option>';
+            foreach ($desa->result() as $d)
+            {
+                echo "<option value='$d->id'>$d->name</option>";
+            }
+        }
 
 }

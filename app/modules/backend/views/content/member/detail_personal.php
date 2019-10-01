@@ -1,6 +1,18 @@
+<style media="screen">
+  .personal-img-detail{
+    width: 150px;
+    height: 200px;
+    /* border: 1px solid #939393; */
+    box-shadow: 1px 1px 2px #939393;
+    /* background-color: rgba(255, 199, 0, 1); */
+    background-position: center;
+    background-size: cover;
+  }
+</style>
+
 <div class="row">
   <div class="col-sm-2">
-    <img src="<?=base_url()?>_template/back/images/faces/face1.jpg" style="width:150px;height:150px;" alt="">
+    <div class="personal-img-detail" style="background-image:url('<?=base_url()?>_template/back/images/default/<?=$row->jenis_kelamin?>.png')"></div>
   </div>
 
   <div class="col-sm-10">
@@ -42,7 +54,7 @@
 
       <tr>
         <th>Tempat, Tanggal lahir</th>
-        <td>: <?=strtoupper($row->tempat_lahir) .",".date('d-m-Y',strtotime($row->tanggal_lahir))?></td>
+        <td>: <?=strtoupper($row->tempat_lahir) .", ".date('d-m-Y',strtotime($row->tanggal_lahir))?></td>
       </tr>
 
 
@@ -77,7 +89,7 @@
 
       <tr>
         <td colspan="2">
-          <a class="badge badge-warning text-white badge-pill" name="button"><i class="ti-pencil"></i> Edit Data Personal</a>
+          <a class="badge badge-warning text-white badge-pill" href="<?=site_url("backend/member/form/personal/".enc_uri($row->id_person)."/$row->id_register")?>"><i class="ti-pencil-alt"></i> Edit Data Personal</a>
         </td>
       </tr>
     </table>

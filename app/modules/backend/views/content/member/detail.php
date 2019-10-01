@@ -46,6 +46,10 @@
                     <li><a href="<?=site_url("backend/member/detail/account/".enc_uri($id_person)."/$id_register")?>" <?=$this->uri->segment(4)=="account" ? 'class="active"':''?>><i class="ti-lock"></i> Data Akun</a></li>
                     <li><a href="<?=site_url("backend/member/form/delete/".enc_uri($id_person)."/$id_register")?>" <?=$this->uri->segment(4)=="delete" ? 'class="active"':''?>><i class="ti-trash"></i> Hapus Akun</a></li>
                   </ul>
+
+                  <p class="text-center">
+                    <a href="<?=site_url("backend/member")?>" class="btn btn-secondary btn-sm text-white"> Kembali ke list</a>
+                  </p>
                 </div>
               </div>
 

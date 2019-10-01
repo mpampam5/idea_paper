@@ -2,7 +2,7 @@
 require APPPATH."/modules/backend/core/MY_Model.php";
 class Member_model extends MY_Model{
 
-  var $column_order = array(null, 'id_register','nama','email','telepon');
+  var $column_order = array(null, 'id_register','nama','email','telepon','is_active');
   var $column_search = array('id_register','nama','email','telepon');
   var $order = array('id_person'=>"DESC");
 

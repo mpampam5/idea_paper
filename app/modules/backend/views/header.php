@@ -139,14 +139,15 @@
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#pengaturan" aria-expanded="false" aria-controls="pengaturan">
               <i class="fa fa-cogs menu-icon"></i>
-              <span class="menu-title">Settings</span>
+              <span class="menu-title">Setting</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="pengaturan">
               <ul class="nav flex-column sub-menu">
                 <!-- <li class="nav-item"> <a class="nav-link" href="<?=site_url("adm-backend/config_all")?>">Umum</a></li>
                 <li class="nav-item"> <a class="nav-link" href="<?=site_url("adm-backend/config_paket")?>">Paket</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?=site_url("adm-backend/config_bank")?>">Rekening</a></li> -->
+               -->
+                <li class="nav-item"> <a class="nav-link" href="<?=site_url("backend/setting")?>">Umum</a></li>
                 <li class="nav-item"> <a class="nav-link" href="<?=site_url("backend/administrator")?>">Administrator</a></li>
               </ul>
             </div>

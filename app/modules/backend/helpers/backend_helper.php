@@ -9,6 +9,16 @@ if ( ! function_exists('sess'))
   }
 }
 
+
+function config_all($where,$field)
+{
+  $ci=& get_instance();
+  $query = $ci->db->where($where)
+                  ->get("config_all")
+                  ->row();
+  return $query->$field;
+}
+
 if ( ! function_exists('profile'))
 {
   function profile($field)

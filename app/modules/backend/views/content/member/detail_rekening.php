@@ -1,10 +1,6 @@
 <div class="row">
   <div class="col-md-12">
     <table class="table-detail">
-      <tr>
-        <th>Username</th>
-        <td>: <?=$row->username?></td>
-      </tr>
 
       <tr>
         <th>Nama Rekening</th>

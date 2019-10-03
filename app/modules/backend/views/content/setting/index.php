@@ -50,7 +50,7 @@
               &nbsp;&nbsp;<a href="#" class="act"><span class="text-primary"><i class="ti-pencil-alt"></i></span></a>
             </td>
           </tr>
-          
+
           <tr>
             <th><?=config_all(["config"=>"email"],"initial");?></th>
             <td><?=config_all(["config"=>"email"],"value");?>
@@ -85,6 +85,14 @@
               &nbsp;&nbsp;<a href="#" class="act"><span class="text-primary"><i class="ti-pencil-alt"></i></span></a>
             </td>
           </tr>
+
+          <tr>
+            <th><?=config_all(["config"=>"biaya-registrasi"],"initial");?></th>
+            <td>Rp.<?=format_rupiah(config_all(["config"=>"biaya-registrasi"],"value"));?>
+              &nbsp;&nbsp;<a href="#" class="act"><span class="text-primary"><i class="ti-pencil-alt"></i></span></a>
+            </td>
+          </tr>
+
 
         </table>
       </div>

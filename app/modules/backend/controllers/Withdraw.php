@@ -38,7 +38,7 @@ class Withdraw extends MY_Controller{
                       <button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="fa fa-cog"></span> Action</button>
                       <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 44px, 0px);">
                         <a class="dropdown-item text-primary" href="'.site_url("backend/withdraw/detail/".enc_uri($withdraw->id_trans_withdraw)."/$withdraw->kode_transaksi/success").'"><i class="fa fa-file"></i> Detail</a>
-                        <a class="dropdown-item text-danger" id="delete" href="'.site_url("backend/withdraw/delete/".enc_uri($withdraw->id_trans_withdraw)."/$withdraw->kode_transaksi").'"><i class="fa fa-close"></i> Batalkan</a>
+                        
                       </div>
                     </div>
                    ';

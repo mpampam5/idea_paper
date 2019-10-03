@@ -12,7 +12,7 @@
 
 <div class="row">
   <div class="col-sm-2">
-    <div class="personal-img-detail" style="background-image:url('<?=base_url()?>_template/back/images/default/<?=$row->jenis_kelamin?>.png')"></div>
+    <div class="personal-img-detail" style="background-image:url('<?=base_url()?>_template/back/images/default/<?=$row->jenis_kelamin=='' ? 'pria':$row->jenis_kelamin?>.png')"></div>
   </div>
 
   <div class="col-sm-10">
@@ -54,7 +54,11 @@
 
       <tr>
         <th>Tempat, Tanggal lahir</th>
-        <td>: <?=strtoupper($row->tempat_lahir) .", ".date('d-m-Y',strtotime($row->tanggal_lahir))?></td>
+        <td>:
+          <?php if ($row->tanggal_lahir!=""): ?>
+            <?=strtoupper($row->tempat_lahir) .", ".date('d-m-Y',strtotime($row->tanggal_lahir))?>
+          <?php endif; ?>
+        </td>
       </tr>
 
 

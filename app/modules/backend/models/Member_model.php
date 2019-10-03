@@ -122,9 +122,9 @@ class Member_model extends MY_Model{
                                   trans_person_rekening.ref_bank,
                                   ref_bank.inisial_bank")
                         ->from("tb_person")
-                        ->join("tb_auth","tb_auth.id_person = tb_person.id_person")
-                        ->join("trans_person_rekening","trans_person_rekening.id_person = tb_person.id_person")
-                        ->join("ref_bank","ref_bank.id_bank = trans_person_rekening.ref_bank")
+                        ->join("tb_auth","tb_auth.id_person = tb_person.id_person","left")
+                        ->join("trans_person_rekening","trans_person_rekening.id_person = tb_person.id_person","left")
+                        ->join("ref_bank","ref_bank.id_bank = trans_person_rekening.ref_bank","left")
                         ->where("tb_person.id_person",dec_uri($id))
                         ->where("tb_person.id_register",$mem_reg)
                         ->where("tb_person.is_delete","0")

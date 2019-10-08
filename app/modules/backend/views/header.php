@@ -96,11 +96,20 @@
             </a>
           </li>
 
+
+
           <li class="nav-item">
-            <a class="nav-link" href="<?=site_url('backend/member')?>">
+            <a class="nav-link" data-toggle="collapse" href="#member" aria-expanded="false" aria-controls="member">
               <i class="ti-user menu-icon"></i>
               <span class="menu-title">Member</span>
+              <i class="menu-arrow"></i>
             </a>
+            <div class="collapse" id="member">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="<?=site_url("backend/topup/pending")?>">Menunggu verifikasi</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?=site_url('backend/member')?>">Approved</a></li>
+              </ul>
+            </div>
           </li>
 
 

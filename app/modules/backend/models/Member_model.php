@@ -13,6 +13,8 @@ class Member_model extends MY_Model{
 
       $this->db->from("tb_person");
       $this->db->where("is_delete !=", "1");
+      $this->db->where("is_complate", "1");
+      $this->db->where("is_verifikasi", "1");
 
 
         //add custom filter here
@@ -89,6 +91,8 @@ class Member_model extends MY_Model{
     public function count_all()
     {
         $this->db->from("tb_person");
+        $this->db->where("is_complate", "1");
+        $this->db->where("is_verifikasi", "1");
         return $this->db->count_all_results();
     }
 

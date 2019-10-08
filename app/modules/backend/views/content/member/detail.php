@@ -21,7 +21,8 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb bg-black">
     <li class="breadcrumb-item"><a href="<?=site_url("backend/home")?>">Dashboard</a></li>
-    <li class="breadcrumb-item" aria-current="page"><?=ucfirst($title)?></li>
+    <li class="breadcrumb-item"><?=ucfirst($title)?></li>
+    <li class="breadcrumb-item">Approved</li>
     <li class="breadcrumb-item active" aria-current="page">Detail</li>
   </ol>
 </nav>

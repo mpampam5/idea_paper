@@ -33,6 +33,36 @@ if ( ! function_exists('profile'))
   }
 }
 
+
+if ( ! function_exists('profile_where'))
+{
+  function profile_where($id,$field)
+  {
+     $ci=& get_instance();
+     $query = $ci->db->get_where("tb_admin",['id_admin'=>$id]);
+     if ($query->num_rows()> 0) {
+       return $query->row()->$field;
+     }else {
+       return "Error Helper";
+     }
+  }
+}
+
+
+if ( ! function_exists('profile_member'))
+{
+  function profile_member($id,$field)
+  {
+     $ci=& get_instance();
+     $query = $ci->db->get_where("tb_person",['id_person'=>$id]);
+     if ($query->num_rows()> 0) {
+       return $query->row()->$field;
+     }else {
+       return "Error Helper";
+     }
+  }
+}
+
 if ( ! function_exists('format_rupiah'))
 {
   function format_rupiah($int)

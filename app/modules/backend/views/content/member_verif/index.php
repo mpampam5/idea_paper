@@ -10,7 +10,7 @@
   <ol class="breadcrumb bg-black">
     <li class="breadcrumb-item"><a href="<?=site_url("backend/home")?>">Dashboard</a></li>
     <li class="breadcrumb-item"><?=ucfirst($title)?></li>
-    <li class="breadcrumb-item active" aria-current="page">Approved</li>
+    <li class="breadcrumb-item active" aria-current="page">Menunggu Verifikasi</li>
   </ol>
 </nav>
 
@@ -29,45 +29,45 @@
             <h4 class="card-title"> Search Filter </h4>
             <hr>
               <form id="form-filter" autocomplete="off">
-                <div class="row">
-                  <div class="col-md-2">
-                    <div class="form-group">
-                      <label for="">ID.REG</label>
-                      <input type="text" class="form-control form-control-sm" id="id_register">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <label for="">ID.REG</label>
+                        <input type="text" class="form-control form-control-sm" id="id_register">
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="">NIK</label>
-                      <input type="text" class="form-control form-control-sm" id="nik">
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="">NIK</label>
+                        <input type="text" class="form-control form-control-sm" id="nik">
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="">Name</label>
-                      <input type="text" class="form-control form-control-sm" id="nama">
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="">Name</label>
+                        <input type="text" class="form-control form-control-sm" id="nama">
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="col-md-2">
-                    <div class="form-group">
-                      <label for="">telepon</label>
-                      <input type="text" class="form-control form-control-sm" id="telepon">
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <label for="">telepon</label>
+                        <input type="text" class="form-control form-control-sm" id="telepon">
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="col-md-2">
-                    <div class="form-group">
-                      <label for="">Email</label>
-                      <input type="text" class="form-control form-control-sm" id="email">
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <label for="">Email</label>
+                        <input type="text" class="form-control form-control-sm" id="email">
+                      </div>
                     </div>
+
+
+
                   </div>
-
-
-
-                </div>
 
                   <button type="button" id="btn-filter" name="button" class="btn btn-sm btn-primary">Filter Search</button>
                   <button type="button" id="hide_collapse" class="btn btn-danger btn-sm">Cancel</button>
@@ -102,7 +102,6 @@
                 <th>NIK & NAMA</th>
                 <th>EMAIL</th>
                 <th>TELEPON</th>
-                <th>STATUS</th>
                 <th class="text-center">#</th>
               </tr>
             </thead>
@@ -127,7 +126,7 @@ $(document).ready(function(){
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "<?php echo site_url('backend/member/json')?>",
+            "url": "<?php echo site_url('backend/member_verif/json')?>",
             "type": "POST",
             "data": function ( data ) {
                 data.id_register = $('#id_register').val();
@@ -151,15 +150,11 @@ $(document).ready(function(){
             "orderable": false,
         },
 
-        {
-            "className": "text-center",
-            "targets": 5
-        },
 
         {
             "className": "text-center",
             "orderable": false,
-            "targets": 6
+            "targets": 5
         }
         ],
       });
@@ -187,53 +182,6 @@ $(document).ready(function(){
 
 });
 
-$(document).on("click","#rst_pwd",function(e){
-  e.preventDefault();
-  $('.modal-dialog').removeClass('modal-lg')
-                    .removeClass('modal-sm')
-                    .addClass('modal-md');
-  $("#modalTitle").text('Form Reset Password');
-  $('#modalContent').load($(this).attr('href'));
-  $("#modalGue").modal('show');
-});
 
-$(document).on("click","#delete",function(e){
-  e.preventDefault();
-  $('.modal-dialog').removeClass('modal-lg')
-                    .removeClass('modal-md')
-                    .addClass('modal-sm');
-  $("#modalTitle").text('Please Confirm');
-  $('#modalContent').html(`<p>Are you sure you want to delete?</p>`);
-  $('#modalFooter').addClass('modal-footer').html(`<button type='button' class='btn btn-light btn-sm' data-dismiss='modal'>Cancel</button>
-                          <button type='button' class='btn btn-primary btn-sm' id='ya-hapus' data-id=`+$(this).attr('alt')+`  data-url=`+$(this).attr('href')+`>Yes, i'm sure</button>
-                        `);
-  $("#modalGue").modal('show');
-});
-
-$(document).on('click','#ya-hapus',function(e){
-  $(this).prop('disabled',true)
-          .text('Processing...');
-  $.ajax({
-          url:$(this).data('url'),
-          type:'post',
-          cache:false,
-          dataType:'json',
-          success:function(json){
-            $('#modalGue').modal('hide');
-            $.toast({
-              text: json.alert,
-              showHideTransition: 'slide',
-              icon: json.success,
-              loaderBg: '#f96868',
-              position: 'bottom-right',
-              afterHidden: function () {
-                  $('#table').DataTable().ajax.reload();
-              }
-            });
-
-
-          }
-        });
-});
 
 </script>

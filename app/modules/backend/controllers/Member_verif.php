@@ -3,18 +3,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require APPPATH."/modules/backend/core/MY_Controller.php";
 
-class Member extends MY_Controller{
+class Member_verif extends MY_Controller{
 
   public function __construct()
   {
     parent::__construct();
-    $this->load->model("Member_model","model");
+    $this->load->model("Member_verif_model","model");
   }
 
   function index()
   {
     $this->template->set_title('Member');
-    $this->template->view('content/member/index',array());
+    $this->template->view('content/member_verif/index',array());
   }
 
   function json()
@@ -27,15 +27,14 @@ class Member extends MY_Controller{
           $no++;
           $row = array();
           $row[] = $no;
-          $row[] = "<span class='text-danger' style='font-size:11px;'>WAKTU REGISTER : ".date('d/m/Y H:i', strtotime($member->created))."</span><br>"."<span class='text-primary' style='font-weight:600'> $member->id_register</span>";
+          $row[] = "<span class='text-primary' style='font-weight:600'> $member->id_register</span>"."<br><span class='text-danger' style='font-size:11px;'>WAKTU REGISTER : ".date('d/m/Y H:i', strtotime($member->created))."</span>";
           $row[] = "<span class='text-danger' style='font-size:11px;'>NIK : ".$member->nik."</span><br><span style='font-weight:600'>".strtoupper($member->nama)."</span>";
           $row[] = $member->email;
           $row[] = $member->telepon;
-          $row[] = $member->is_active=="0"? "<span class='badge badge-danger'> Nonaktif</span>" : "<span class='badge badge-success'> Aktif</span>";
 
 
           $row[] = '
-                      <a class="btn btn-outline-primary" href="'.site_url("backend/member/detail/personal/".enc_uri($member->id_person)."/$member->id_register").'"><i class="fa fa-file"></i> Detail & Setting</a>
+                      <a class="btn btn-outline-primary" href="'.site_url("backend/member_verif/detail/personal/".enc_uri($member->id_person)."/$member->id_register").'"><i class="fa fa-file"></i> Detail & Approved</a>
                    ';
 
           $data[] = $row;
@@ -54,15 +53,15 @@ class Member extends MY_Controller{
 
   function detail($link,$id="",$mem_reg="")
   {
-    $link_uri = array('personal','rekening','account','delete');
+    $link_uri = array('personal');
     if (in_array($link,$link_uri)) {
       if ($row = $this->model->get_detail_member($id,$mem_reg)) {
         $this->template->set_title("Member");
         $query["row"] = $row;
         $data["id_person"] = $row->id_person;
         $data["id_register"] = $row->id_register;
-        $data['content_view'] = $this->load->view("content/member/detail_$link",$query,true);
-        $this->template->view("content/member/detail",$data);
+        $data['content_view'] = $this->load->view("content/member_verif/detail_$link",$query,true);
+        $this->template->view("content/member_verif/detail",$data);
       }else {
         $this->_error404();
       }
@@ -74,20 +73,20 @@ class Member extends MY_Controller{
 
   function form($link,$id="",$mem_reg="")
   {
-    $link_uri = array('personal','rekening','account','delete');
+    $link_uri = array('verifikasi');
     if (in_array($link,$link_uri)) {
       if ($row = $this->model->get_detail_member($id,$mem_reg)) {
         $this->template->set_title("Member");
         $query["row"] = $row;
-        $query['action'] = site_url("backend/member/form_act/$link/$id/$mem_reg");
+        $query['action'] = site_url("backend/member_verif/form_act/$link/$id/$mem_reg");
         if ($link=="personal") {
           $query['provinsi'] = $this->db->get("wil_provinsi");
           $query['pekerjaan'] = $this->db->get("ref_pekerjaan");
         }
         $data["id_person"] = $row->id_person;
         $data["id_register"] = $row->id_register;
-        $data['content_view'] = $this->load->view("content/member/form_$link",$query,true);
-        $this->template->view("content/member/detail",$data);
+        $data['content_view'] = $this->load->view("content/member_verif/form_$link",$query,true);
+        $this->template->view("content/member_verif/detail",$data);
       }else {
         $this->_error404();
       }
@@ -100,51 +99,17 @@ class Member extends MY_Controller{
   function form_act($link,$id="",$mem_reg="")
   {
     if ($this->input->is_ajax_request()) {
-      $link_uri = array('personal','rekening','account','delete');
+      $link_uri = array('verifikasi');
       if (in_array($link,$link_uri)) {
           $json = array('success'=>false, 'alert'=>array());
-          if ($link=="personal") {
-            $this->_rules_personal();
+          if ($link=="verifikasi") {
+            $this->_rules_verifikasi();
             $table = "tb_person";
-            $data_update = ["nik"           =>  $this->input->post("nik",true),
-                            "nama"          =>  $this->input->post("nama",true),
-                            "email"         =>  $this->input->post("email",true),
-                            "telepon"       =>  $this->input->post("telepon",true),
-                            "jenis_kelamin" =>  $this->input->post("jenis_kelamin",true),
-                            "tempat_lahir"  =>  $this->input->post("tempat_lahir",true),
-                            "tanggal_lahir" =>  date("Y-m-d",strtotime($this->input->post("tanggal_lahir",true))),
-                            "pekerjaan"     =>  $this->input->post("pekerjaan",true),
-                            "id_provinsi"   =>  $this->input->post("provinsi",true),
-                            "id_kabupaten"  =>  $this->input->post("kabupaten",true),
-                            "id_kecamatan"  =>  $this->input->post("kecamatan",true),
-                            "id_kelurahan"  =>  $this->input->post("kelurahan",true),
-                            "alamat"  =>  $this->input->post("alamat",true)
-                            ];
-          }elseif ($link=="rekening") {
-            $this->_rules_rekening();
-            $table = "trans_person_rekening";
-            $data_update = ["ref_bank"        =>  $this->input->post("bank",true),
-                            "no_rekening"     =>  $this->input->post("no_rekening",true),
-                            "nama_rekening"   =>  $this->input->post("nama_rekening",true),
-                            "kota_pembukuan"  =>  $this->input->post("kota_pembukuan",true)
-                            ];
-          }elseif ($link=="account") {
-            $this->_rules_account();
-            $table = "tb_auth";
-            $this->load->helper(array("pass_has","enc_gue"));
-            $token = enc_uri(date("dmYhis"));
-            $password = $this->input->post("konfirmasi_password");
-            $data_update = ["token"     =>  $token,
-                            "password"  =>  pass_encrypt($token,$password)
-                            ];
-          }elseif ($link=="delete") {
-            $this->_rules_delete();
-            $table = "tb_person";
-            $keterangan = array('admin_approved' => sess("id_admin"),
-                                'approved_time' => date("Y-m-d H:i:s"),
-                                'desc'      => $this->input->post("keterangan",true)
+            $keterangan['add']= array('admin_approved' => sess("id_admin"),
+                                'approved_time'  => date("Y-m-d H:i:s"),
+                                'desc'           => $this->input->post("keterangan",true)
                                 );
-            $data_update = ["is_delete"     =>  "1",
+            $data_update = ["is_verifikasi"     =>  "1",
                             "keterangan"  =>  json_encode($keterangan)
                             ];
           }
@@ -205,7 +170,7 @@ class Member extends MY_Controller{
   }
 
 
-  function _rules_delete()
+  function _rules_verifikasi()
   {
     $this->form_validation->set_rules("password","&nbsp;*","trim|xss_clean|required|callback__cek_password");
     $this->form_validation->set_rules("keterangan","&nbsp;*","trim|xss_clean|required|htmlspecialchars");;

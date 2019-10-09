@@ -1,4 +1,10 @@
 <style media="screen">
+
+  .container-content
+  {
+    margin: 1px;
+    /* border: 1px solid #adadad; */
+  }
   .personal-img-detail{
     width: 150px;
     height: 200px;
@@ -8,10 +14,22 @@
     background-position: center;
     background-size: cover;
   }
+
+  .title-detail{
+    display: block;
+    padding: 10px 0 10px 30px;
+    color: #3c3c3c;
+    font-size: 14px;
+    /* border-bottom: 1px solid #ababab; */
+  }
 </style>
 
-<div class="row">
-<div class="col-sm-6">
+
+<h5 class="title-detail border-bottom">Data Personal</h5>
+<div class="row container-content border-bottom pb-5">
+
+
+  <div class="col-sm-7">
     <table class="table-detail">
       <tr>
         <th>No. Registrasi</th>
@@ -58,21 +76,11 @@
       </tr>
 
 
-      <tr>
-        <th>Status</th>
-        <td>:
-          <?php if ($row->is_active=="1"): ?>
-            <span class="badge badge-success badge-pill"> Aktif</span>
-            <?php else: ?>
-              <span class="badge badge-danger badge-pill"> Nonaktif</span>
-          <?php endif; ?>
-        </td>
-      </tr>
 
     </table>
   </div>
 
-  <div class="col-sm-6">
+  <div class="col-sm-5">
     <table class="table-detail">
       <tr>
         <td colspan="2">
@@ -86,35 +94,10 @@
             </p>
         </td>
       </tr>
-
-      <tr>
-        <td colspan="2"><b>Di Referral Oleh</b>
-          <p style="font-size:11px;">
-            <?php
-              $query = $this->db->get_where("trans_person_sponsor",["id_person"=>$row->id_person])->row();
-             ?>
-
-             <?php if ($rows = $query): ?>
-
-
-               <b class="text-info"><?=profile_member($rows->id_person_sponsor,"id_register") ?></b>&nbsp;|&nbsp;
-               <?=profile_member($rows->id_person_sponsor,"nama") ?>
-
-               <?php else: ?>
-                 Mendaftar melalui form registrasi (Tidak di tambahkan oleh siapa pun)
-             <?php endif; ?>
-          </p>
-        </td>
-
-      </tr>
     </table>
   </div>
 
-
-
-  <div class="col-sm-12 mt-5"></div>
-
-  <div class="col-sm-6">
+  <div class="col-sm-12 mt-5">
 
     <table class="table-detail" id="lightgallery">
       <tr>
@@ -139,36 +122,81 @@
       </tr>
     </table>
   </div>
-
-  <?php if ($row->keterangan!=null): ?>
-
-  <div class="col-sm-6">
-    <?php
-      $approved = json_decode($row->keterangan);
-     ?>
-
-     <table class="table-detail">
-       <tr>
-         <th>Admin Approved</th>
-         <td>: <?=profile_where($approved->add->admin_approved,"nama")?></td>
-       </tr>
-
-       <tr>
-         <th>Time Approved</th>
-         <td>: <?=date("d/m/Y H:s",strtotime($approved->add->approved_time))?></td>
-       </tr>
-
-       <tr>
-         <td colspan="2"><b>Description </b> <p style="font-style:italic;font-size:11px;"><?=$approved->add->desc?></p></td>
-       </tr>
-     </table>
-  </div>
-    <?php endif; ?>
-
-
-
-
-<div class="col-sm-12 p-5 mt-2">
-    <a class="badge badge-warning text-white badge-pill" href="<?=site_url("backend/member/form/personal/".enc_uri($row->id_person)."/$row->id_register")?>"><i class="ti-pencil-alt"></i> Edit Data Personal</a>
 </div>
+
+
+<h5 class="title-detail border-bottom">Data Rekening</h5>
+<div class="row container-content border-bottom pb-5">
+  <div class="col-sm-12">
+    <table class="table-detail">
+      <tr>
+        <th>Nama Rekening</th>
+        <td>: <?=strtoupper($row->nama_rekening)?></td>
+      </tr>
+
+      <tr>
+        <th>No.Rekening</th>
+        <td>: <?=$row->no_rekening?></td>
+      </tr>
+
+      <tr>
+        <th>BANK</th>
+        <td>: <?=strtoupper($row->inisial_bank)?></td>
+      </tr>
+
+      <tr>
+        <th>Kota/Kabupaten Pembukaan Rekening</th>
+        <td>: <?=$row->kota_pembukuan?></td>
+      </tr>
+
+
+
+
+    </table>
+  </div>
+
+</div>
+
+
+<h5 class="title-detail border-bottom">Data Akun</h5>
+<div class="row container-content border-bottom pb-5">
+  <div class="col-sm-12">
+    <table class="table-detail">
+      <tr>
+        <th>Username</th>
+        <td>: <?=$row->username?></td>
+      </tr>
+
+      <tr>
+        <th>Tanggal Mendaftar</th>
+        <td>: <?=date("d/m/Y H:i",strtotime($row->created))?></td>
+      </tr>
+
+      <tr>
+        <th>Di Referral oleh</th>
+        <td>:
+          <?php
+            $query = $this->db->get_where("trans_person_sponsor",["id_person"=>$row->id_person])->row();
+           ?>
+
+           <?php if ($rows = $query): ?>
+
+
+             <b class="text-info"><?=profile_member($rows->id_person_sponsor,"id_register") ?></b>&nbsp;|&nbsp;
+             <?=profile_member($rows->id_person_sponsor,"nama") ?>
+
+             <?php else: ?>
+               Mendaftar melalui form registrasi (Tidak di tambahkan oleh siapa pun)
+           <?php endif; ?>
+        </td>
+      </tr>
+
+
+
+
+
+
+    </table>
+  </div>
+
 </div>

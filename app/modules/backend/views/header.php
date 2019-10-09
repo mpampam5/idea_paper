@@ -19,6 +19,8 @@
   <!-- endinject -->
   <link rel="shortcut icon" href="<?=base_url()?>_template/back/images/favicon.png" />
 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+
   <link rel="stylesheet" href="<?=base_url()?>_template/back/vendors/jquery-toast-plugin/jquery.toast.min.css">
   <link rel="stylesheet" href="<?=base_url()?>_template/back/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
   <!-- plugins:js -->
@@ -106,7 +108,7 @@
             </a>
             <div class="collapse" id="member">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?=site_url("backend/topup/pending")?>">Menunggu verifikasi</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?=site_url("backend/member_verif")?>">Menunggu verifikasi</a></li>
                 <li class="nav-item"> <a class="nav-link" href="<?=site_url('backend/member')?>">Approved</a></li>
               </ul>
             </div>

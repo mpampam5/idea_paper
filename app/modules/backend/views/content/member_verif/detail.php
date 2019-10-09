@@ -22,7 +22,7 @@
   <ol class="breadcrumb bg-black">
     <li class="breadcrumb-item"><a href="<?=site_url("backend/home")?>">Dashboard</a></li>
     <li class="breadcrumb-item"><?=ucfirst($title)?></li>
-    <li class="breadcrumb-item">Approved</li>
+    <li class="breadcrumb-item">Menunggu Verifikasi</li>
     <li class="breadcrumb-item active" aria-current="page">Detail</li>
   </ol>
 </nav>
@@ -42,14 +42,13 @@
               <div class="col-md-2 bg-white profile-menu-bar border-right">
                 <div class="menu-bar">
                   <ul class="menu-items">
-                    <li ><a href="<?=site_url("backend/member/detail/personal/".enc_uri($id_person)."/$id_register")?>" <?=$this->uri->segment(4)=="personal" ? 'class="active"':''?>><i class="ti-user"></i> Data Personal</a></li>
-                    <li><a href="<?=site_url("backend/member/detail/rekening/".enc_uri($id_person)."/$id_register")?>" <?=$this->uri->segment(4)=="rekening" ? 'class="active"':''?>><i class="ti-credit-card"></i> Data Rekening</a></li>
-                    <li><a href="<?=site_url("backend/member/detail/account/".enc_uri($id_person)."/$id_register")?>" <?=$this->uri->segment(4)=="account" ? 'class="active"':''?>><i class="ti-lock"></i> Data Akun</a></li>
-                    <!-- <li><a href="<?=site_url("backend/member/form/delete/".enc_uri($id_person)."/$id_register")?>" <?=$this->uri->segment(4)=="delete" ? 'class="active"':''?>><i class="ti-trash"></i> Hapus Akun</a></li> -->
+                    <li ><a href="<?=site_url("backend/member_verif/detail/personal/".enc_uri($id_person)."/$id_register")?>" <?=$this->uri->segment(4)=="personal" ? 'class="active"':''?>><i class="ti-user"></i> Data Personal</a></li>
+                    <li><a href="<?=site_url("backend/member_verif/form/verifikasi/".enc_uri($id_person)."/$id_register")?>" <?=$this->uri->segment(4)=="verifikasi" ? 'class="active"':''?>><i class="ti-check-box"></i> Verifikasi Akun</a></li>
+                    <!-- <li><a href="<?=site_url("backend/member_verif/form/verifikasi/".enc_uri($id_person)."/$id_register")?>" <?=$this->uri->segment(4)=="delete" ? 'class="active"':''?>><i class="ti-trash"></i> Hapus Akun</a></li> -->
                   </ul>
 
                   <p class="text-center">
-                    <a href="<?=site_url("backend/member")?>" class="btn btn-secondary btn-sm text-white"> Kembali ke list</a>
+                    <a href="<?=site_url("backend/member_verif")?>" class="btn btn-secondary btn-sm text-white"> Kembali ke list</a>
                   </p>
                 </div>
               </div>

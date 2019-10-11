@@ -64,7 +64,12 @@
           <?php if ($row->is_active=="1"): ?>
             <span class="badge badge-success badge-pill"> Aktif</span>
             <?php else: ?>
-              <span class="badge badge-danger badge-pill"> Nonaktif</span>
+              <?php
+                $approved_status = json_decode($row->keterangan_active);
+               ?>
+              <a href="#" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="<?=$approved_status->desc?> && Approved By : <?=profile_where($approved_status->admin_approved,"nama")?> && Time : <?=date("d/m/y H:i",strtotime($approved_status->approved_time))?>">
+                <span class="badge badge-danger badge-pill"> Nonaktif</span>
+              </a>
           <?php endif; ?>
         </td>
       </tr>

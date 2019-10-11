@@ -107,6 +107,7 @@ class Member_model extends MY_Model{
                                   tb_person.created,
                                   tb_person.modified,
                                   tb_person.keterangan,
+                                  tb_person.keterangan_active,
                                   tb_auth.username,
                                   trans_person_rekening.nama_rekening,
                                   trans_person_rekening.no_rekening,

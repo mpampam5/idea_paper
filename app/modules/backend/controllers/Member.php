@@ -74,7 +74,7 @@ class Member extends MY_Controller{
 
   function form($link,$id="",$mem_reg="")
   {
-    $link_uri = array('personal','rekening','account','delete');
+    $link_uri = array('personal','rekening','account','delete','status');
     if (in_array($link,$link_uri)) {
       if ($row = $this->model->get_detail_member($id,$mem_reg)) {
         $this->template->set_title("Member");
@@ -84,8 +84,9 @@ class Member extends MY_Controller{
           $query['provinsi'] = $this->db->get("wil_provinsi");
           $query['pekerjaan'] = $this->db->get("ref_pekerjaan");
         }
-        $data["id_person"] = $row->id_person;
-        $data["id_register"] = $row->id_register;
+        $query["is_active"]   = $row->is_active;
+        $data["id_person"]    = $row->id_person;
+        $data["id_register"]  = $row->id_register;
         $data['content_view'] = $this->load->view("content/member/form_$link",$query,true);
         $this->template->view("content/member/detail",$data);
       }else {
@@ -100,7 +101,7 @@ class Member extends MY_Controller{
   function form_act($link,$id="",$mem_reg="")
   {
     if ($this->input->is_ajax_request()) {
-      $link_uri = array('personal','rekening','account','delete');
+      $link_uri = array('personal','rekening','account','delete','status');
       if (in_array($link,$link_uri)) {
           $json = array('success'=>false, 'alert'=>array());
           if ($link=="personal") {
@@ -137,7 +138,17 @@ class Member extends MY_Controller{
             $data_update = ["token"     =>  $token,
                             "password"  =>  pass_encrypt($token,$password)
                             ];
-          }elseif ($link=="delete") {
+          }elseif ($link=="status") {
+            $this->_rules_status();
+            $table = "tb_person";
+            $keterangan = array('admin_approved' => sess("id_admin"),
+                                'approved_time' => date("Y-m-d H:i:s"),
+                                'desc'      => $this->input->post("keterangan",true)
+                                );
+            $data_update = ["is_active"   =>  $this->input->post("status"),
+                            "keterangan_active"  =>  json_encode($keterangan)
+                            ];
+          }elseif($link=="delete") {
             $this->_rules_delete();
             $table = "tb_person";
             $keterangan = array('admin_approved' => sess("id_admin"),
@@ -208,7 +219,15 @@ class Member extends MY_Controller{
   function _rules_delete()
   {
     $this->form_validation->set_rules("password","&nbsp;*","trim|xss_clean|required|callback__cek_password");
-    $this->form_validation->set_rules("keterangan","&nbsp;*","trim|xss_clean|required|htmlspecialchars");;
+    $this->form_validation->set_rules("keterangan","&nbsp;*","trim|xss_clean|required|htmlspecialchars");
+  }
+
+
+  function _rules_status()
+  {
+    $this->form_validation->set_rules("password","&nbsp;*","trim|xss_clean|required|callback__cek_password");
+    $this->form_validation->set_rules("keterangan","&nbsp;*","trim|xss_clean|required|htmlspecialchars");
+    $this->form_validation->set_rules("status","&nbsp;*","trim|xss_clean|required|numeric");
   }
 
 

@@ -147,6 +147,14 @@
             </div>
           </li>
 
+
+          <li class="nav-item">
+            <a class="nav-link" href="<?=site_url('backend/trading/get/info')?>">
+              <i class="ti-bar-chart menu-icon"></i>
+              <span class="menu-title">Trading</span>
+            </a>
+          </li>
+
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#pengaturan" aria-expanded="false" aria-controls="pengaturan">
               <i class="fa fa-cogs menu-icon"></i>

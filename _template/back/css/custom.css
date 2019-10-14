@@ -1571,3 +1571,7 @@
 .profile-menu-bar .menu-bar .menu-items li a.active{
   color:#ffcc00!important;
 }
+
+.font-bold{
+  font-weight:bold; 
+}

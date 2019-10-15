@@ -52,7 +52,7 @@
       </tr>
 
       <tr>
-        <th>Jumlah Paper Terpakai</th>
+        <th>Jumlah Paper Terbeli</th>
         <td>:
         <?php
               $total_paper_terpakai = $this->db->select("id_trans_person_trading,SUM(jumlah_paper) AS jumlah_paper")
@@ -65,9 +65,23 @@
       </tr>
 
       <tr>
-        <th>Total Harga Paper Terpakai</th>
+        <th>Total Investasi</th>
         <td>:
           Rp. <?=format_rupiah($total_paper_terpakai->jumlah_paper*$row->harga_paper)?>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="2"></td>
+      </tr>
+      <tr>
+        <td colspan="2"></td>
+      </tr>
+
+      <tr>
+        <td colspan="2">
+          <span style="font-weight:bold;">Keterangan :</span>
+          <p style="font-size:12px"><?=$row->keterangan?></p>
         </td>
       </tr>
     </table>

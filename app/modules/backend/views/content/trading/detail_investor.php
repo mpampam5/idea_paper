@@ -131,7 +131,7 @@
           <tr>
             <th>No</th>
             <th>Waktu</th>
-            <th>Profit</th>
+            <th>Dividen</th>
             <th>Nominal (Rp)</th>
           </tr>
         </thead>

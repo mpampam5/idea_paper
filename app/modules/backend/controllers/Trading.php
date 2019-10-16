@@ -55,6 +55,8 @@ class Trading extends MY_Controller{
             $data_update = [  "title" => $this->input->post("title",true),
                               "harga_paper" => $this->input->post("harga_paper",true),
                               "jumlah_paper" => $this->input->post("jumlah_paper",true),
+                              "masa_kontrak" => $this->input->post("masa_kontrak",true),
+                              "keterangan" => $this->input->post("keterangan",true),
             ];
 
             $where = ["id_trading"=>1];
@@ -112,6 +114,8 @@ function _rules_info()
   $this->form_validation->set_rules("title","&nbsp;*","trim|xss_clean|required|htmlspecialchars");
   $this->form_validation->set_rules("harga_paper","&nbsp;*","trim|xss_clean|required|numeric");
   $this->form_validation->set_rules("jumlah_paper","&nbsp;*","trim|xss_clean|required|numeric");
+  $this->form_validation->set_rules("masa_kontrak","&nbsp;*","trim|xss_clean|required|numeric");
+  $this->form_validation->set_rules("keterangan","&nbsp;*","trim|xss_clean|required|htmlspecialchars");
 }
 
 }

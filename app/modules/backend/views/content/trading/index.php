@@ -21,8 +21,8 @@
                 <div class="menu-bar">
                   <ul class="menu-items">
                     <li><a href="<?=site_url("backend/trading/get/info")?>" <?=$this->uri->segment(4)=="info" ? 'class="active"':''?>><i class="ti-file"></i> Data Trading</a></li>
-                    <li><a href="<?=site_url("backend/trading/get/investor")?>" <?=$this->uri->segment(4)=="investor" ? 'class="active"':''?>><i class="ti-user"></i> Data Investor</a></li>
                     <li><a href="" <?=$this->uri->segment(4)=="profit" ? 'class="active"':''?>><i class="ti-bar-chart"></i> Data Profit</a></li>
+                    <li><a href="<?=site_url("backend/trading/get/investor")?>" <?=$this->uri->segment(4)=="investor" ? 'class="active"':''?>><i class="ti-user"></i> Data Investor</a></li>
                   </ul>
                 </div>
               </div>

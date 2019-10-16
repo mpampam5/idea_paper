@@ -25,6 +25,17 @@
         <input type="text" class="form-control" id="total" readonly placeholder="Total Harga Paper" value="Rp.<?=format_rupiah($row->harga_paper*$row->jumlah_paper)?>">
       </div>
 
+
+      <div class="form-group">
+        <label id="masa_kontrak">Masa Kontrak (bulan)</label>
+        <input type="text" class="form-control" name="masa_kontrak" id="masa_kontrak" placeholder="Masa kontrak" value="<?=$row->masa_kontrak?>">
+      </div>
+
+      <div class="form-group">
+        <label id="keterangan">Keterangan</label>
+        <textarea name="keterangan" class="form-control" rows="6" cols="80"><?=$row->keterangan?></textarea>
+      </div>
+
       <a href="<?=site_url("backend/trading/get/info")?>" class="btn btn-secondary btn-sm text-white"><i class="ti-na"></i> Batal</a>
       <button type="submit" id="submit" class="btn btn-primary btn-sm" name="button"><i class="ti-check-box"></i> Update</button>
     </form>

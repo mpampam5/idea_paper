@@ -41,6 +41,12 @@
         <td>: Rp.<?=format_rupiah($row->harga_paper*$row->jumlah_paper)?></td>
       </tr>
 
+
+      <tr>
+        <th>Masa Kontrak</th>
+        <td>: <?=$row->masa_kontrak?> Bulan</td>
+      </tr>
+
       <tr>
         <td colspan="2"></td>
       </tr>
@@ -87,7 +93,7 @@
     </table>
   </div>
 
-  <!-- <div class="col-sm-12 mt-5 pl-5">
+  <div class="col-sm-12 mt-3 pl-4">
     <a href="<?=site_url("backend/trading/get_form/info")?>" class="badge badge-warning text-white" id="edit_info_trading"> <i class="ti-pencil-alt"></i> Edit</a>
-  </div> -->
+  </div>
 </div>

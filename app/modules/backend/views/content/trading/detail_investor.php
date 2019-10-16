@@ -81,12 +81,14 @@
       $total = $this->db->select("id_trans_person_trading,kode_transaksi,id_person,SUM(jumlah_paper) AS jumlah_paper,SUM(total_harga_paper) AS total_harga_paper,created")
                                           ->from("trans_person_trading")
                                           ->where("id_person",$row->id_person)
+                                          ->where("status_kontrak","belum")
                                           ->get()
                                           ->row();
         $no = 1;
         $history_pembelian_paper = $this->db->select("id_trans_person_trading,kode_transaksi,id_person,jumlah_paper,total_harga_paper,created")
                                             ->from("trans_person_trading")
                                             ->where("id_person",$row->id_person)
+                                            ->where("status_kontrak","belum")
                                             ->get();
        ?>
 

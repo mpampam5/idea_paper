@@ -26,6 +26,22 @@ function json_investor()
 }
 
 
+
+function json_profit()
+{
+  $this->datatables->select("trading_profit.id_trading_profit,
+                            DATE_FORMAT(trading_profit.time_add,'%d/%m/%Y') AS time_add,
+                            trading_profit.persentasi,
+                            FORMAT(trading_profit.nominal,0) AS nominal,
+                            trading_profit.keterangan,
+                            trading_profit.created");
+    $this->datatables->from('trading_profit');
+    $this->datatables->add_column('action','<a href="'.site_url("backend/trading/detail/investor/$1").'" class="btn btn-outline-warning"><i class="ti-file"></i> Detail</a>','id_trading_profit');
+    return $this->datatables->generate();
+}
+
+
+
 function get_detail_member($mem_reg)
 {
   $query = $this->db->select("tb_person.id_person,

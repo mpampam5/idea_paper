@@ -20,6 +20,8 @@ class Trading extends MY_Controller{
         $query['row'] = $this->model->get_info_trading();
       }elseif ($title=="investor") {
         $query['row'] = "";
+      }elseif ($title=="profit") {
+        $query['action'] = site_url("backend/trading/get_action_profit");
       }
       $data['content_view'] = $this->load->view("content/trading/content_$title",$query,true);
       $this->template->view('content/trading/index',$data);
@@ -83,6 +85,39 @@ class Trading extends MY_Controller{
   }
 
 
+
+  function get_action_profit(){
+    if ($this->input->is_ajax_request()) {
+      $json = array('success'=>false, 'alert'=>array());
+      $this->_rules_profit();
+      $this->form_validation->set_error_delimiters('<label class="error text-danger" style="font-size:12px">','</label>');
+      if ($this->form_validation->run()) {
+
+
+
+        $insert = array('time_add' => $this->input->post("waktu",true),
+                        'persentasi' => $this->input->post("persen",true),
+                        'nominal' => str_replace(".","",$this->input->post("nominal",true)),
+                        'status_bagi' => "belum",
+                        'created' => date("Y-m-d H:i:s")
+                        );
+
+        $this->model->get_insert("trading_profit",$insert);
+
+        $json['success'] = true;
+        $json['alert'] = "successfully";
+      }else {
+        foreach ($_POST as $key => $value)
+        {
+          $json['alert'][$key] = form_error($key);
+        }
+      }
+
+      echo json_encode($json);
+    }
+  }
+
+
   function detail($title="",$reg="")
   {
     $link_uri = array('info','investor','profit');
@@ -109,6 +144,14 @@ class Trading extends MY_Controller{
     echo $this->model->json_investor();
   }
 
+
+  function json_profit()
+  {
+    $this->load->library('Datatables');
+    header('Content-Type: application/json');
+    echo $this->model->json_profit();
+  }
+
 function _rules_info()
 {
   $this->form_validation->set_rules("title","&nbsp;*","trim|xss_clean|required|htmlspecialchars");
@@ -117,5 +160,34 @@ function _rules_info()
   $this->form_validation->set_rules("masa_kontrak","&nbsp;*","trim|xss_clean|required|numeric");
   $this->form_validation->set_rules("keterangan","&nbsp;*","trim|xss_clean|required|htmlspecialchars");
 }
+
+
+function _rules_profit()
+{
+  $this->form_validation->set_rules("waktu","&nbsp;*","trim|xss_clean|required|htmlspecialchars");
+  $this->form_validation->set_rules("persen","&nbsp;*","trim|xss_clean|required|numeric");
+  $this->form_validation->set_rules("nominal","&nbsp;*","trim|xss_clean|required|callback__cek_nominal");
+}
+
+function _cek_nominal($str)
+{
+  if (!preg_match("/^[0-9.]*$/",$str)) {
+    $this->form_validation->set_message('_cek_nominal', '* Nominal Tidak valid');
+    return false;
+  }else {
+    return true;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
 
 }

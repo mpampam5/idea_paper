@@ -4,7 +4,7 @@
     <form action="<?=$action?>" id="form">
       <div class="form-group">
         <label for="">Nominal (Rp)</label>
-        <input type="text" class="form-control" id="nominal" name="nominal" placeholder="Nominal" value="<?=$rows->nominal?>">
+        <input type="text" class="form-control" id="nominal" name="nominal" placeholder="Nominal" value="<?=substr($rows->nominal,0,-3)?>000">
       </div>
 
       <div class="form-group">

@@ -116,3 +116,23 @@ function tampilkan_wilayah($table,$where,$selected)
 return $str;
 
 }
+
+
+
+//trading
+//Trading paper
+function get_info_trading($field)
+  {
+    $ci=& get_instance();
+    $query = $ci->db->get_where("trading",['id_trading'=>1])->row();
+    return $query->$field;
+  }
+
+
+  function masa_berlaku_paper($waktu_mulai)
+{
+  $sekarang = date("d-m-Y");
+  $masaberlaku = strtotime($waktu_mulai) - strtotime($sekarang);
+
+  return $masaberlaku/(24*60*60);
+}

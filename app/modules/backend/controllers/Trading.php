@@ -93,8 +93,6 @@ class Trading extends MY_Controller{
       $this->form_validation->set_error_delimiters('<label class="error text-danger" style="font-size:12px">','</label>');
       if ($this->form_validation->run()) {
 
-
-
         $insert = array('time_add' => $this->input->post("waktu",true),
                         'persentasi' => $this->input->post("persen",true),
                         'nominal' => str_replace(".","",$this->input->post("nominal",true)),
@@ -180,11 +178,109 @@ function _cek_nominal($str)
 }
 
 
+function delete_profit($id)
+{
+  if ($this->input->is_ajax_request()) {
+    if ($row = $this->model->get_where('trading_profit',["id_trading_profit"=>$id])) {
+      if ($row->status_bagi!="belum") {
+        $json['success'] = "error";
+        $json['alert']   = 'delete error';
+      }else {
+        if ($this->model->get_delete('trading_profit',["id_trading_profit"=>$id])) {
+            $json['success'] = "success";
+            $json['alert']   = 'delete successful';
+        }
+      }
+    }
+    echo json_encode($json);
+  }
+}
+
+
+
+function bagikan_dividen($id)
+{
+  if ($this->input->is_ajax_request()) {
+    if ($row = $this->model->get_where('trading_profit',["id_trading_profit"=>$id])) {
+        $data['tgl_bagi'] = date('d/m/Y',strtotime($row->time_add));
+        $data['persentasi'] = $row->persentasi;
+        $data['nominal'] = $row->nominal;
+        $data['action'] = site_url("backend/trading/act_dividen/".enc_uri($row->id_trading_profit));
+        $this->template->view('content/trading/form_bagikan',$data,false);
+    }else {
+      echo "error 404";
+    }
+
+  }
+}
+
+
+
+function act_dividen($id)
+{
+  if ($this->input->is_ajax_request()) {
+    $json = array('success'=>false, 'alert'=>array());
+    $this->form_validation->set_rules("password","&nbsp;*","trim|required|callback__cek_password",[
+      "required" => "* Masukkan password untuk memastikan bahwa anda telah setuju."
+    ]);
+    $this->form_validation->set_error_delimiters('<label class="error text-danger" style="font-size:12px">','</label>');
+
+    if ($this->form_validation->run()) {
+
+      if ($row_trading_profit = $this->model->get_where('trading_profit',["id_trading_profit"=>dec_uri($id)])) {
+        $query = $this->model->cek_trans_person_trading();
+        if ($query->num_rows()>0) {
+            foreach ($query->result() as $row) {
+              $seluruh_jumlah_paper = get_info_trading("jumlah_paper");
+              $persen_paper_member = $row->jumlah_paper/$seluruh_jumlah_paper;
+              $dividen = $persen_paper_member*$row_trading_profit->nominal;
+              $insert_dividen = array("id_trading_profit" => dec_uri($id),
+                                        "id_person" => $row->id_person,
+                                        "jumlah_paper"=> $row->jumlah_paper,
+                                        "dividen"=> $dividen,
+                                        "persentase"=> $persen_paper_member,
+                                        "created"=> date("Y-m-d H:i:s")
+                                        );
+
+            $this->model->get_insert("trading_dividen",$insert_dividen);
+
+            }
+        }
+
+        $this->model->get_update("trading_profit",["status_bagi"=>"sudah"],["id_trading_profit"=>dec_uri($id)]);
+        $json['alert'] = "Dividen Berhasil dibagikan ke investor";
+      }else {
+        $json['alert'] = "Error";
+      }
+
+
+      $json['success'] = true;
+
+    }else {
+      foreach ($_POST as $key => $value)
+      {
+        $json['alert'][$key] = form_error($key);
+      }
+    }
+
+    echo json_encode($json);
+  }
+}
 
 
 
 
-
+function cek_cek()
+{
+  $query = $this->model->cek_trans_person_trading();
+  if ($query->num_rows() > 0) {
+    foreach ($query->result() as $row) {
+      echo $row->jumlah_paper."<br>";
+    }
+  }else {
+    echo "0";
+  }
+}
 
 
 

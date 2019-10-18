@@ -85,19 +85,20 @@
                                           ->get()
                                           ->row();
         $no = 1;
-        $history_pembelian_paper = $this->db->select("id_trans_person_trading,kode_transaksi,id_person,jumlah_paper,total_harga_paper,created")
+        $history_pembelian_paper = $this->db->select("id_trans_person_trading,kode_transaksi,id_person,jumlah_paper,total_harga_paper,waktu_mulai,masa_aktif,created")
                                             ->from("trans_person_trading")
                                             ->where("id_person",$row->id_person)
                                             ->where("status_kontrak","belum")
                                             ->get();
        ?>
 
-       <table class="table table-striped">
+       <table class="table table-bordered">
          <thead class="bg-black text-yell">
            <tr>
              <th class="text-center">No</th>
-             <th>Waktu</th>
+             <th>Waktu Pembelian</th>
              <th>Kode Transaksi</th>
+             <th>Status</th>
              <th class="text-center">Jumlah</th>
              <th>Harga Paper (Rp)</th>
            </tr>
@@ -109,13 +110,21 @@
                <td class="text-center"><?=$no++?></td>
                <td><?=date("d/m/Y H:i",strtotime($h_p->created))?></td>
                <td><span class="text-primary"> <?=$h_p->kode_transaksi?></span></td>
+               <td>
+                 <?php if (masa_berlaku_paper($h_p->waktu_mulai)>0): ?>
+                   <span class="mt-1 text-danger" style="font-size:9px!important;"><i class="fa fa-circle"></i> BELUM AKTIF&nbsp;<i class="fa fa-circle"></i>&nbsp;BERLAKU SAMPAI <?=date("d/m/Y",strtotime($h_p->masa_aktif))?></span>
+                  <?php else: ?>
+                    <span class="mt-1 text-success" style="font-size:9px!important;"><i class="fa fa-circle"></i> AKTIF&nbsp;<i class="fa fa-circle"></i>&nbsp;BERLAKU SAMPAI <?=date("d/m/Y",strtotime($h_p->masa_aktif))?></span>
+                 <?php endif; ?>
+               </td>
                <td class="text-center"><?=$h_p->jumlah_paper?></td>
                <td>Rp.<?=format_rupiah($h_p->total_harga_paper)?></td>
+
              </tr>
            <?php endforeach; ?>
 
            <tr class="bg-black text-yell">
-             <td colspan="3"></td>
+             <td colspan="4"></td>
              <td class="text-center"><p style="font-weight:bold">Total Paper</p><?=$total->jumlah_paper?></td>
              <td><p style="font-weight:bold">Total Investasi (Rp)</p>Rp.<?=format_rupiah($total->total_harga_paper)?></td>
            </tr>
@@ -132,26 +141,50 @@
         <thead class="bg-black text-yell">
           <tr>
             <th>No</th>
-            <th>Waktu</th>
+            <th>Waktu Pembagian</th>
+            <th>Profit</th>
+            <th>Paper Tehitung</th>
             <th>Dividen</th>
-            <th>Nominal (Rp)</th>
           </tr>
         </thead>
 
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>10/11/2019 12:59</td>
-            <td><span class="text-danger">-5%</span></td>
-            <td>Rp.0</td>
-          </tr>
+          <?php
+          $no_div =1;
+            $dividen = $this->db->select("trading_dividen.id_trading_dividen,
+                                          trading_dividen.id_trading_profit,
+                                          trading_dividen.id_person,
+                                          trading_dividen.jumlah_paper,
+                                          trading_dividen.persentase,
+                                          trading_dividen.dividen,
+                                          trading_profit.time_add,
+                                          trading_profit.persentasi,
+                                          trading_profit.nominal,
+                                          trading_profit.status_bagi")
+                                    ->from("trading_dividen")
+                                    ->join("trading_profit","trading_profit.id_trading_profit = trading_dividen.id_trading_profit")
+                                    ->where("id_person",$row->id_person)
+                                    ->order_by("time_add","DESC")
+                                    ->get();
+           ?>
+           <?php if ($dividen->num_rows()>0): ?>
 
-          <tr>
-            <td>2</td>
-            <td>10/10/2019 11:10</td>
-            <td><span class="text-success">+5%</span></td>
-            <td>Rp.500.000</td>
-          </tr>
+             <?php foreach ($dividen->result() as $div): ?>
+               <tr>
+                 <td><?=$no_div++?></td>
+                 <td><?=date("d/m/Y",strtotime($div->time_add))?></td>
+                 <td>
+                   <span class="text-<?=$div->persentasi==0 ? 'danger':'success'?>">Rp.<?=format_rupiah($div->nominal)?> (<?=$div->persentasi?>%)</span>
+                 </td>
+                 <td><?=$div->jumlah_paper?> Paper</td>
+                 <td>
+                   <span class="text-<?=$div->persentasi==0 ? 'danger':'success'?>">Rp.<?=format_rupiah($div->dividen)?> <?=$div->persentasi==0 ?'':'('.$div->persentase.'%)'?></span>
+                  </td>
+               </tr>
+             <?php endforeach; ?>
+           <?php endif; ?>
+
+
         </tbody>
       </table>
     </div>

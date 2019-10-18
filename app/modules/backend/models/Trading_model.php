@@ -34,9 +34,15 @@ function json_profit()
                             trading_profit.persentasi,
                             FORMAT(trading_profit.nominal,0) AS nominal,
                             trading_profit.keterangan,
+                            trading_profit.status_bagi,
                             trading_profit.created");
     $this->datatables->from('trading_profit');
-    $this->datatables->add_column('action','<a href="'.site_url("backend/trading/detail/investor/$1").'" class="btn btn-outline-warning"><i class="ti-file"></i> Detail</a>','id_trading_profit');
+    $this->datatables->add_column('action','<a href="'.site_url("backend/trading/detail/investor/$1").'" class="btn btn-outline-primary"><i class="ti-file"></i> Detail</a>','id_trading_profit');
+    $this->datatables->add_column('action2',
+                                  '
+                                    <a href="'.site_url("backend/trading/bagikan_dividen/$1").'" id="bagikan_dividen" class="btn btn-outline-primary"><i class="ti-file"></i> Bagikan Dividen</a>
+                                    <a href="'.site_url("backend/trading/delete_profit/$1").'" id="hapus_profit" class="btn btn-outline-danger"><i class="ti-trash"></i> Hapus</a>
+                                  ','id_trading_profit');
     return $this->datatables->generate();
 }
 
@@ -75,6 +81,27 @@ function get_detail_member($mem_reg)
                     ->get()
                     ->row();
     return $query;
+}
+
+
+function cek_trans_person_trading()
+{
+  $dates = date("Y-m-d");
+  $query = $this->db->select("trans_person_trading.id_trans_person_trading,
+                              trans_person_trading.id_trading,
+                              trans_person_trading.id_person,
+                              Sum(trans_person_trading.jumlah_paper) AS jumlah_paper,
+                              trans_person_trading.total_harga_paper,
+                              trans_person_trading.status_kontrak,
+                              trans_person_trading.waktu_mulai,
+                              trans_person_trading.masa_aktif,
+                              trans_person_trading.created")
+                    ->from("trans_person_trading")
+                    ->where("waktu_mulai <=","$dates")
+                    ->where("status_kontrak","belum")
+                    ->group_by("trans_person_trading.id_person")
+                    ->get();
+  return $query;
 }
 
 

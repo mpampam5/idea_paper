@@ -61,7 +61,8 @@
         <th>Jumlah Paper Terbeli</th>
         <td>:
         <?php
-              $total_paper_terpakai = $this->db->select("id_trans_person_trading,SUM(jumlah_paper) AS jumlah_paper")
+              $total_paper_terpakai = $this->db->select("id_trans_person_trading,SUM(jumlah_paper) AS jumlah_paper,status_kontrak")
+                                              ->where("status_kontrak","belum")
                                                ->get("trans_person_trading")
                                                ->row();
           echo "$total_paper_terpakai->jumlah_paper Paper";

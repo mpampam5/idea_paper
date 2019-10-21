@@ -56,6 +56,9 @@
         <td>: <?=$row->email?></td>
       </tr>
 
+
+
+      <?php if ($row->is_complate=="1"): ?>
       <tr>
         <th>Pekerjaan</th>
         <td>: <?=$row->pekerjaan?></td>
@@ -74,7 +77,7 @@
           <?php endif; ?>
         </td>
       </tr>
-
+    <?php endif; ?>
 
 
     </table>
@@ -96,6 +99,11 @@
       </tr>
     </table>
   </div>
+
+
+
+<?php if ($row->is_complate=="1"): ?>
+
 
   <div class="col-sm-12 mt-5">
 
@@ -122,9 +130,11 @@
       </tr>
     </table>
   </div>
+
+  <?php endif; ?>
 </div>
 
-
+<?php if ($row->is_complate=="1"): ?>
 <h5 class="title-detail border-bottom">Data Rekening</h5>
 <div class="row container-content border-bottom pb-5">
   <div class="col-sm-12">
@@ -156,7 +166,7 @@
   </div>
 
 </div>
-
+<?php endif; ?>
 
 <h5 class="title-detail border-bottom">Data Akun</h5>
 <div class="row container-content border-bottom pb-5">

@@ -43,7 +43,7 @@ $("#form_bagikan").submit(function(e){
               $.toast({
                 text: json.alert,
                 showHideTransition: 'slide',
-                icon: 'success',
+                icon: json.alert_header,
                 loaderBg: '#f96868',
                 position: 'bottom-right'
               });

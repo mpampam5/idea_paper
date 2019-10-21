@@ -13,7 +13,7 @@ class Member_verif_model extends MY_Model{
 
       $this->db->from("tb_person");
       $this->db->where("is_delete !=", "1");
-      $this->db->where("is_complate", "1");
+      // $this->db->where("is_complate", "1");
       $this->db->where("is_verifikasi", "0");
 
 
@@ -95,7 +95,7 @@ class Member_verif_model extends MY_Model{
     public function count_all()
     {
         $this->db->from("tb_person");
-        $this->db->where("is_complate", "1");
+        // $this->db->where("is_complate", "1");
         $this->db->where("is_verifikasi", "0");
         return $this->db->count_all_results();
     }
@@ -121,6 +121,7 @@ class Member_verif_model extends MY_Model{
                                   tb_person.id_kelurahan,
                                   tb_person.is_delete,
                                   tb_person.is_verifikasi,
+                                  tb_person.is_complate,
                                   tb_person.created,
                                   tb_person.modified,
                                   tb_auth.username,

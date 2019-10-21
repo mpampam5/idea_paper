@@ -113,8 +113,9 @@
 
     $("#nominal").on("keyup",function(){
       var nominal =  $(this).val();
+          jumlah_paper = <?=get_info_trading('jumlah_paper')?>*<?=get_info_trading('harga_paper')?>;
           nom = nominal.split('.').join('');
-          persen = (nom/1000000000)*100;
+          persen = (nom/jumlah_paper)*100;
 
       $("#persen").val(persen);
     });
@@ -257,6 +258,17 @@
                       .removeClass('modal-sm')
                       .addClass('modal-md');
     $("#modalTitle").text('Autentikasi');
+    $('#modalContent').load($(this).attr('href'));
+    $("#modalGue").modal('show');
+  });
+
+
+  $(document).on("click","#detail_profit",function(e){
+    e.preventDefault();
+    $('.modal-dialog').removeClass('modal-lg')
+                      .removeClass('modal-sm')
+                      .addClass('modal-md');
+    $("#modalTitle").text('Detail Profit');
     $('#modalContent').load($(this).attr('href'));
     $("#modalGue").modal('show');
   });

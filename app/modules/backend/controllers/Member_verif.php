@@ -79,10 +79,6 @@ class Member_verif extends MY_Controller{
         $this->template->set_title("Member");
         $query["row"] = $row;
         $query['action'] = site_url("backend/member_verif/form_act/$link/$id/$mem_reg");
-        if ($link=="personal") {
-          $query['provinsi'] = $this->db->get("wil_provinsi");
-          $query['pekerjaan'] = $this->db->get("ref_pekerjaan");
-        }
         $data["id_person"] = $row->id_person;
         $data["id_register"] = $row->id_register;
         $data['content_view'] = $this->load->view("content/member_verif/form_$link",$query,true);

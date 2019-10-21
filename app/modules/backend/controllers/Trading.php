@@ -118,16 +118,16 @@ class Trading extends MY_Controller{
 
   function detail($title="",$reg="")
   {
-    $link_uri = array('info','investor','profit');
+    $link_uri = array('info','investor');
     if (in_array($title,$link_uri)) {
-      if ($row = $this->model->get_detail_member($reg)) {
-        $this->template->set_title('Trading');
-        $query['row'] = $row;
-        $data['content_view'] = $this->load->view("content/trading/detail_$title",$query,true);
-        $this->template->view('content/trading/index',$data);
-      }else {
-        $this->_error404();
-      }
+        if ($row = $this->model->get_detail_member($reg)) {
+          $this->template->set_title('Trading');
+          $query['row'] = $row;
+          $data['content_view'] = $this->load->view("content/trading/detail_$title",$query,true);
+          $this->template->view('content/trading/index',$data);
+        }else {
+          $this->_error404();
+        }
       }else {
         $this->_error404();
       }
@@ -230,6 +230,9 @@ function act_dividen($id)
       if ($row_trading_profit = $this->model->get_where('trading_profit',["id_trading_profit"=>dec_uri($id)])) {
         $query = $this->model->cek_trans_person_trading();
         if ($query->num_rows()>0) {
+            //START DB TRANS
+            $this->db->trans_start();
+
             foreach ($query->result() as $row) {
               $seluruh_jumlah_paper = get_info_trading("jumlah_paper");
               $persen_paper_member = $row->jumlah_paper/$seluruh_jumlah_paper;
@@ -243,14 +246,40 @@ function act_dividen($id)
                                         );
 
             $this->model->get_insert("trading_dividen",$insert_dividen);
+            //inser history
+            $history = array('modul' => "trading_dividen",
+                              "id_person" => $row->id_person,
+                              "keterangan" => json_encode($insert_dividen),
+                              'created' => date('Y-m-d H:i:s')
+                            );
+
+            $this->model->get_insert("history_all",$history);
 
             }
         }
 
-        $this->model->get_update("trading_profit",["status_bagi"=>"sudah"],["id_trading_profit"=>dec_uri($id)]);
-        $json['alert'] = "Dividen Berhasil dibagikan ke investor";
+        $keterangan= array('admin_approved' => sess('id_admin') ,
+                            'time_approved' =>date('Y-m-d H:i:s'),
+                            'description'   => "success"
+                            );
+
+        $this->model->get_update("trading_profit",["status_bagi"=>"sudah","keterangan"=>json_encode($keterangan)],["id_trading_profit"=>dec_uri($id)]);
+        // Validasi DB trans
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === FALSE)
+              {
+                $this->db->trans_rollback();
+                $json['alert_header'] = "error";
+                $json['alert'] = "Error ! Gagal membagikan, Terjadi kesalahan";
+              }else{
+                $this->db->trans_commit();
+                $json['alert'] = "Dividen Berhasil dibagikan ke investor";
+                $json['alert_header'] = "success";
+              }
+
       }else {
-        $json['alert'] = "Error";
+        $json['alert_header'] = "error";
+        $json['alert'] = "Error ! Terjadi kesalahan";
       }
 
 
@@ -267,6 +296,18 @@ function act_dividen($id)
   }
 }
 
+
+
+function detail_profit($id="")
+{
+  if ($row = $this->model->get_detail_profit($id)) {
+    $this->template->set_title('Trading');
+    $data['row'] = $row;
+    $this->template->view("content/trading/detail_profit",$data,false);
+  }else {
+    $this->_error404();
+  }
+}
 
 
 

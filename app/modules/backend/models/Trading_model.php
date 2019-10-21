@@ -13,6 +13,7 @@ function json_investor()
 {
   $this->datatables->select("id_trans_person_trading,
                               trans_person_trading.id_person,
+                              status_kontrak,
                               Sum(jumlah_paper) AS jumlah_paper,
                               FORMAT(Sum(total_harga_paper),0) AS total_harga_paper,
                               id_register,
@@ -20,6 +21,7 @@ function json_investor()
                               email");
     $this->datatables->from('trans_person_trading');
     $this->datatables->join("tb_person","tb_person.id_person = trans_person_trading.id_person");
+    $this->datatables->where("status_kontrak","belum");
     $this->datatables->group_by('trans_person_trading.id_person');
     $this->datatables->add_column('action','<a href="'.site_url("backend/trading/detail/investor/$1").'" class="btn btn-outline-warning"><i class="ti-file"></i> Detail</a>','id_register');
     return $this->datatables->generate();
@@ -37,13 +39,29 @@ function json_profit()
                             trading_profit.status_bagi,
                             trading_profit.created");
     $this->datatables->from('trading_profit');
-    $this->datatables->add_column('action','<a href="'.site_url("backend/trading/detail/investor/$1").'" class="btn btn-outline-primary"><i class="ti-file"></i> Detail</a>','id_trading_profit');
+    $this->datatables->add_column('action','<a href="'.site_url("backend/trading/detail_profit/$1").'" id="detail_profit" class="btn btn-outline-primary"><i class="ti-file"></i> Detail</a>','id_trading_profit');
     $this->datatables->add_column('action2',
                                   '
                                     <a href="'.site_url("backend/trading/bagikan_dividen/$1").'" id="bagikan_dividen" class="btn btn-outline-primary"><i class="ti-file"></i> Bagikan Dividen</a>
                                     <a href="'.site_url("backend/trading/delete_profit/$1").'" id="hapus_profit" class="btn btn-outline-danger"><i class="ti-trash"></i> Hapus</a>
                                   ','id_trading_profit');
     return $this->datatables->generate();
+}
+
+function get_detail_profit($id)
+{
+  $query = $this->db->select("trading_profit.id_trading_profit,
+                              trading_profit.time_add,
+                              trading_profit.persentasi,
+                              trading_profit.nominal,
+                              trading_profit.status_bagi")
+                    ->from("trading_profit")
+                    ->where("id_trading_profit",$id)
+                    ->where("status_bagi","sudah")
+                    ->get()
+                    ->row();
+  return $query;
+
 }
 
 

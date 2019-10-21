@@ -78,17 +78,16 @@
 
     <div class="col-sm-12">
       <?php
-      $total = $this->db->select("id_trans_person_trading,kode_transaksi,id_person,SUM(jumlah_paper) AS jumlah_paper,SUM(total_harga_paper) AS total_harga_paper,created")
+      $total = $this->db->select("id_trans_person_trading,kode_transaksi,id_person,SUM(jumlah_paper) AS jumlah_paper,SUM(total_harga_paper) AS total_harga_paper,created,status_kontrak")
                                           ->from("trans_person_trading")
                                           ->where("id_person",$row->id_person)
                                           ->where("status_kontrak","belum")
                                           ->get()
                                           ->row();
         $no = 1;
-        $history_pembelian_paper = $this->db->select("id_trans_person_trading,kode_transaksi,id_person,jumlah_paper,total_harga_paper,waktu_mulai,masa_aktif,created")
+        $history_pembelian_paper = $this->db->select("id_trans_person_trading,kode_transaksi,id_person,jumlah_paper,total_harga_paper,waktu_mulai,masa_aktif,created,status_kontrak")
                                             ->from("trans_person_trading")
                                             ->where("id_person",$row->id_person)
-                                            ->where("status_kontrak","belum")
                                             ->get();
        ?>
 
@@ -111,10 +110,14 @@
                <td><?=date("d/m/Y H:i",strtotime($h_p->created))?></td>
                <td><span class="text-primary"> <?=$h_p->kode_transaksi?></span></td>
                <td>
-                 <?php if (masa_berlaku_paper($h_p->waktu_mulai)>0): ?>
-                   <span class="mt-1 text-danger" style="font-size:9px!important;"><i class="fa fa-circle"></i> BELUM AKTIF&nbsp;<i class="fa fa-circle"></i>&nbsp;BERLAKU SAMPAI <?=date("d/m/Y",strtotime($h_p->masa_aktif))?></span>
-                  <?php else: ?>
-                    <span class="mt-1 text-success" style="font-size:9px!important;"><i class="fa fa-circle"></i> AKTIF&nbsp;<i class="fa fa-circle"></i>&nbsp;BERLAKU SAMPAI <?=date("d/m/Y",strtotime($h_p->masa_aktif))?></span>
+                 <?php if ($h_p->status_kontrak=="selesai"): ?>
+                    <span class="mt-1 text-danger" style="font-size:9px!important;"><i class="fa fa-circle"></i> TIDAK AKTIF&nbsp;<i class="fa fa-circle"></i>&nbsp;KONTRAK TELAH SELESAI PADA TANGGAL <?=date("d/m/Y",strtotime($h_p->masa_aktif))?></span>
+                   <?php else: ?>
+                     <?php if (masa_berlaku_paper($h_p->waktu_mulai)>0): ?>
+                       <span class="mt-1 text-danger" style="font-size:9px!important;"><i class="fa fa-circle"></i> BELUM AKTIF&nbsp;<i class="fa fa-circle"></i>&nbsp;BERLAKU SAMPAI <?=date("d/m/Y",strtotime($h_p->masa_aktif))?></span>
+                      <?php else: ?>
+                        <span class="mt-1 text-success" style="font-size:9px!important;"><i class="fa fa-circle"></i> AKTIF&nbsp;<i class="fa fa-circle"></i>&nbsp;BERLAKU SAMPAI <?=date("d/m/Y",strtotime($h_p->masa_aktif))?></span>
+                     <?php endif; ?>
                  <?php endif; ?>
                </td>
                <td class="text-center"><?=$h_p->jumlah_paper?></td>
@@ -164,6 +167,7 @@
                                     ->from("trading_dividen")
                                     ->join("trading_profit","trading_profit.id_trading_profit = trading_dividen.id_trading_profit")
                                     ->where("id_person",$row->id_person)
+                                    ->where("status_bagi","sudah")
                                     ->order_by("time_add","DESC")
                                     ->get();
            ?>
